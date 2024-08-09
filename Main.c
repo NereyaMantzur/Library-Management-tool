@@ -7,16 +7,56 @@ void PrintMenu();
 //program start here
 int main()
 {
-Library library;
-initLibrary(*library);
+  Library library;
+  initLibrary(*library);
 
-	printf("welcome to the library manager  V1.0");
+	 printf("welcome to the library manager           V1.0");
 
-int choice;
-do{
- PrintMenu();
- scanf("%d",&choice);
- 
+  int choice;
+  do{
+    PrintMenu();
+    scanf("%d",&choice);
+    switch (choice)
+       case 1:
+         printf("not implemented yet /n");
+         break;
+       case 2:
+         printf("not implemented yet /n");
+         break;
+       case 3:
+         printf("not implemented yet /n");
+         break;
+       case 4:
+         printf("not implemented yet /n");
+         break;
+       case 5:
+         printf("not implemented yet /n");
+         break;
+       case 6:
+         printf("not implemented yet /n");
+         break;
+       case 7:
+         printf("not implemented yet /n");
+         break;
+       case 8:
+         printf("not implemented yet /n");
+         break;
+       case 9:
+         printf("not implemented yet /n");
+         break;
+       case 10:
+         printf("not implemented yet /n");
+         break;
+       case 11:
+         printf("not implemented yet /n");
+         break;
+       case 12:
+         printf("not implemented yet /n");
+         break;
+       case 13:
+         printf("closing program!/n");
+         break;
+  while(chioce != 1)
 }
 
 void PrintMenu(){
