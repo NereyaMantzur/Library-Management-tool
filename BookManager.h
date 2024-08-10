@@ -24,6 +24,8 @@ typedef struct {
     int count;
 } BookManager;
 
+int initBookManager(BookManager* manager);
+
 #endif
 
 

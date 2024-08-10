@@ -23,6 +23,9 @@ typedef struct {
     int count;
 } LoanManager;
 
+
+initLoanManager(LoanManager* manager);
+
 #endif
 
 
