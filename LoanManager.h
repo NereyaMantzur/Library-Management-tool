@@ -4,6 +4,7 @@
 #include "BookManager.h"
 #include "MemberManager.h"
 #include "Date.h"
+#include "List.h"
 
 typedef enum {
     ONGOING,
@@ -19,12 +20,12 @@ typedef struct {
 } Loan;
 
 typedef struct {
-    Loan* loanList;
+    List loanList;
     int count;
 } LoanManager;
 
 
-initLoanManager(LoanManager* manager);
+int initLoanManager(LoanManager* manager);
 
 #endif
 

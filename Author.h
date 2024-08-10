@@ -2,13 +2,17 @@
 #define AUTHOR_H
 
 // Forward declaration
-struct BookManager;
+struct Book;
 
 typedef struct {
     char* name;
-    char* contact;
-    struct BookManager* writtenBy;  // Use forward declaration here
+    struct Book* next;
+    struct Book* prev;
 } Author;
+
+int initAuthor(Author* author);
+void printAuthor(Author* author);
+int freeAuthor(Author* author);
 
 #endif
 

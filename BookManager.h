@@ -1,31 +1,31 @@
-#ifndef BOOK_H
-#define BOOK_H
+#ifndef BOOKMANAGER_H
+#define BOOKMANAGER_H
 
-#include "Author.h"
+
 #include "Publisher.h"
+#include "Author.h"
 
-typedef enum {
-    FICTION,
-    NONFICTION,
-    SCIENCE,
-    FANTASY
-} Genre;
+typedef enum Genre
+{
+SCIENCE_FICTION,MYSTERY,FANTASY,ROMANCE,HISTORICAL_FICTION
+}Genre;
 
-typedef struct {
-    char* name;
-    Genre genre;
-    int copiesAvailable;
-    Author* author;
-    Publisher* publisher;
-} Book;
+typedef struct Book
+{
+	char* name;
+	Genre genre;
+	int copiesAvailable;
+	Author author;
+	Publisher publisher;
+}Book;
 
-typedef struct {
-    Book* booklist;
-    int count;
-} BookManager;
+typedef struct BookManager
+{
+	Book** BookPtrArr;
+	int count;
+}BookManager;
 
+//functions
 int initBookManager(BookManager* manager);
 
-#endif
-
-
+#endif // !BOOKMANAGER_H

@@ -8,11 +8,11 @@ typedef struct {
     char* name;
     int memberID;
     char* phoneNumber;
-    struct Loan* loanArr[5];  // Use forward declaration here
+    struct Loan* loanArr[5];
 } Member;
 
 typedef struct {
-    Member* listOfMembers;
+    Member* memberArr;
     int count;
 } MemberManager;
 
