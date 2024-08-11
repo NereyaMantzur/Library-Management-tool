@@ -11,6 +11,6 @@ typedef struct {
     MemberManager* memberManager;
 } Library;
 
-int initLibrary(Library* library);
+Library* initLibrary();
 #endif
 

@@ -6,12 +6,12 @@
 #include "BookManager.h"
 
 
-int initBookManager(BookManager* manager)
+BookManager* initBookManager( )
 {
-	manager = (BookManager*)malloc(sizeof(BookManager));
+	BookManager* manager = (BookManager*)malloc(sizeof(BookManager));
 	if (!manager)
 	{
-		return 0;
+		return NULL;
 	}
 	manager->BookPtrArr = NULL;
 	manager->count = 0;
@@ -36,7 +36,7 @@ int initBookManager(BookManager* manager)
 			break;
 		}
 	} while (choice != 2);
-	return 1;
+	return manager;
 }
 
 Book* initBook()
@@ -80,6 +80,58 @@ int addNewBook(BookManager* manager)
 	manager->count++;
 	printf("Book added suuccesfully!\n");
 	return 1;
+}
+
+int removeBook(BookManager* manager)
+{
+	if (!manager->BookPtrArr )
+	{
+
+	}
+	printBookArr(manager->BookPtrArr, manager->count);
+	printf("Please enter name of the book you want to remove: ");
+	char* bookName = getStr();
+	for (int i = 0; i < manager->count; i++)
+	{
+		if (strcmp(bookName,manager->BookPtrArr[i]->name) == 0)
+		{
+			swap(manager->BookPtrArr[i], manager->BookPtrArr[manager->count - 1]);
+			freeBook(manager->BookPtrArr[manager->count - 1]);
+			manager->count--;
+			return 1;
+		}
+	}
+	return 0;
+}
+
+void printBookArr(const Book** bookPtrArr, int count)
+{
+	if (count == 0)
+	{
+		printf("No books in the system!\n");
+	}
+	for (int i = 0; i < count; i++)
+	{
+		printBook(bookPtrArr[i]);
+	}
+}
+
+void printBook(const Book* book)
+{
+	printf("%s \n", book->name);
+}
+
+int freeBook(Book* book)
+{
+	free(book);
+	return 1;
+}
+
+void swap(Book* bookA,Book* bookB)
+{
+	Book* temp = bookA;
+	bookA = bookB;
+	bookB = temp;
 }
 
 int compareBookByName(void* bookA, void* bookB)

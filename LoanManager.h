@@ -23,7 +23,7 @@ typedef struct {
 } LoanManager;
 
 
-int initLoanManager(LoanManager* manager);
+LoanManager* initLoanManager();
 
 #endif
 

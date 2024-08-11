@@ -1,19 +1,25 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "Library.h"
 
-int initLibrary(Library* library) {
-	printf("initializing Library system\n");
-	int book = initBookManager(library->bookManager);
-	int loan = initLoanManager(library->loanManager);
-	int member = initMemberManager(library->memberManager);
-
-	if (book && loan && member )
+Library* initLibrary() {
+	Library* library = (Library*)malloc(sizeof(Library));
+	if (!library)
 	{
-		printf("system initialized succesfully\n");
-		return 1;
+		printf("problem occured during system initialization\n");
+		return NULL;
 	}
-	printf("problem occured during system initialization\n");
-	return 0;
+	printf("initializing Library system\n");
+
+	BookManager* book = initBookManager();
+	LoanManager* loan = initLoanManager(library->loanManager);
+	MemberManager* member = initMemberManager(library->memberManager);
+
+	library->bookManager = book;
+	library->loanManager = loan;
+	library->memberManager = member;
+
+	return library;
 }
 
 

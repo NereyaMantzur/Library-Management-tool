@@ -1,7 +1,10 @@
 #include <stdio.h>
+#include <stdlib.h>
+
 #include "MemberManager.h"
 
-int initMemberManager(MemberManager* manager)
+MemberManager* initMemberManager()
 {
-	return 1;
+	MemberManager* memberManager = (MemberManager*)malloc(sizeof(MemberManager));
+	return memberManager;
 }

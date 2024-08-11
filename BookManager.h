@@ -29,10 +29,16 @@ typedef struct BookManager
 
 //functions
 
-int initBookManager(BookManager* manager);
+BookManager* initBookManager();
 Book* initBook();
 int addNewBook(BookManager* manager);
+int removeBook(BookManager* manager);
+void printBookArr(const Book** bookPtrArr, int count);
+void printBook(const Book*);
+int freeBook(Book* book);
 
+
+void swap(Book* bookA, Book* bookB);
 int compareBookByName(void* bookA, void* bookB);
 
 #endif // !BOOKMANAGER_H

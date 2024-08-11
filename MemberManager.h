@@ -16,7 +16,7 @@ typedef struct {
     int count;
 } MemberManager;
 
-int initMemberManager(MemberManager* manager);
+MemberManager* initMemberManager();
 
 #endif
 
