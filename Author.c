@@ -2,19 +2,29 @@
 #include <stdlib.h>
 
 #include "Author.h"
-#include "List.h"
+#include "General.h"
 
-int initAuthor(Author* author)
+Author* initAuthor()
 {
-	return 1;
+	Author* newAuthor = (Author*)malloc(sizeof(Author));
+	if (!newAuthor)
+	{
+		return NULL;
+	}
+
+	printf("Please enter author name: ");
+	newAuthor->name = getStr();
+	newAuthor->next = NULL;
+	newAuthor->prev = NULL;
+	return newAuthor;
 }
 
 void printAuthor(Author* author)
 {
-
+	printf("%s", author->name);
 }
 
-int freeAuthor(Author* author)
+void freeAuthor(Author* author)
 {
-	return 1;
+	free(author);
 }

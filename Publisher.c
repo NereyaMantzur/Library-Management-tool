@@ -6,21 +6,22 @@
 
 
 
-int initPublisher(Publisher* publisher)
+Publisher* initPublisher()
 {
-	if (!publisher)
+	Publisher* newPublisher = (Publisher*)malloc(sizeof(Publisher));
+	if (!newPublisher)
 	{
-		return 0;
+		return NULL;
 	}
 	printf("Please enter publisher name: \n");
-	publisher->name = getStr();
+	newPublisher->name = getStr();
 
 	printf("Please enter publisher Email: \n");
-	publisher->email = getStr();
+	newPublisher->email = getStr();
 
-	publisher->booksPublished = NULL;
+	newPublisher->booksPublished = NULL;
 
-	return 1;
+	return newPublisher;
 }
 
 void printPublisher(Publisher* publisher)

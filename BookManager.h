@@ -27,5 +27,8 @@ typedef struct BookManager
 
 //functions
 int initBookManager(BookManager* manager);
+Book* initBook();
+int addNewBook(BookManager* manager);
+
 
 #endif // !BOOKMANAGER_H

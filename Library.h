@@ -2,8 +2,8 @@
 #define LIBRARY_H
 
 #include "BookManager.h"
-#include "LoanManager.h"
 #include "MemberManager.h"
+#include "LoanManager.h"
 
 typedef struct {
     BookManager bookManager;

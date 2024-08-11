@@ -2,7 +2,6 @@
 #define AUTHOR_H
 
 // Forward declaration
-struct Book;
 
 typedef struct {
     char* name;
@@ -10,9 +9,9 @@ typedef struct {
     struct Book* prev;
 } Author;
 
-int initAuthor(Author* author);
+Author* initAuthor();
 void printAuthor(Author* author);
-int freeAuthor(Author* author);
+void freeAuthor(Author* author);
 
 #endif
 

@@ -2,7 +2,8 @@
 #define PUBLISHER_H
 
 
-typedef struct BookManager BookManager;
+ struct BookManager;
+ struct Book;
 
 typedef struct {
     char* name;
@@ -10,7 +11,7 @@ typedef struct {
     struct BookManager* booksPublished;
 } Publisher;
 
-int initPublisher(Publisher* publisher);
+Publisher* initPublisher();
 void printPublisher(Publisher* publisher);
 void freePublisher(Publisher* publisher);
 
