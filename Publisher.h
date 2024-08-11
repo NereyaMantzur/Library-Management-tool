@@ -2,8 +2,7 @@
 #define PUBLISHER_H
 
 
- struct BookManager;
- struct Book;
+
 
 typedef struct {
     char* name;

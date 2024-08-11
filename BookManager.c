@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+
 #include "BookManager.h"
-#include "General.h"
 
 
 int initBookManager(BookManager* manager)
@@ -18,6 +19,7 @@ int initBookManager(BookManager* manager)
 		printf("[2] - Exit book initialization \n");
 		printf("Please enter your choice: ");
 		scanf_s("%d", &choice);
+		getchar();
 		switch (choice)
 		{
 		case 1:
@@ -47,5 +49,29 @@ Book* initBook()
 
 int addNewBook(BookManager* manager)
 {
+	manager = (BookManager*)realloc(manager, sizeof(Book*) * (manager->count + 1));
+	if (!manager)
+	{
+		return 0;
+	}
+	Book* add = initBook();
+	for (size_t i = 0; i < manager->count; i++)
+	{
+		if (compareBookByName(add->name, manager->BookPtrArr[i]->name) == 0)
+		{
+			printf("book already exists! \n");
+			return 0;
+		}
+	}
+	manager->BookPtrArr[manager->count] = add;
+	manager->count++;
+	printf("Book added suuccesfully!\n");
 	return 1;
+}
+
+int compareBookByName(void* bookA, void* bookB)
+{
+	Book* a = (Book*)bookA;
+	Book* b = (Book*)bookB;
+	return strcmp(a->name, b->name);
 }
