@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 #include "BookManager.h"
 
@@ -12,6 +13,8 @@ int initBookManager(BookManager* manager)
 	{
 		return 0;
 	}
+	manager->BookPtrArr = NULL;
+	manager->count = 0;
 	int choice;
 	do
 	{
@@ -24,7 +27,12 @@ int initBookManager(BookManager* manager)
 		{
 		case 1:
 			addNewBook(manager);
+			break;
+		case 2: 
+			printf("Exiting books initialization\n");
+			break;
 		default:
+			printf("Invalid choice!\n");
 			break;
 		}
 	} while (choice != 2);
@@ -42,15 +50,20 @@ Book* initBook()
 	newBook->name = getStr();
 	printf("Please enter book genre: ");
 	scanf_s("%d", &newBook->genre);
+	getchar();
 	printf("Please enter number of copies: ");
-	initPublisher();
+	scanf_s("%d", &newBook->copiesAvailable);
+	getchar();
+	newBook->publisher = initPublisher();
+	newBook->author = initAuthor();
+	
 	return newBook;
 }
 
 int addNewBook(BookManager* manager)
 {
-	manager = (BookManager*)realloc(manager, sizeof(Book*) * (manager->count + 1));
-	if (!manager)
+	manager->BookPtrArr = (Book**)realloc(manager->BookPtrArr, sizeof(Book*) * (manager->count + 1));
+	if (!manager->BookPtrArr)
 	{
 		return 0;
 	}

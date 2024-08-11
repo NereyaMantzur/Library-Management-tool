@@ -6,9 +6,9 @@
 #include "LoanManager.h"
 
 typedef struct {
-    BookManager bookManager;
-    LoanManager loanManager;
-    MemberManager memberManager;
+    BookManager* bookManager;
+    LoanManager* loanManager;
+    MemberManager* memberManager;
 } Library;
 
 int initLibrary(Library* library);

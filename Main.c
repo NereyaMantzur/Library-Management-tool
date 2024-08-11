@@ -16,9 +16,10 @@ int main()
 	do {
 		PrintMenu();
 		scanf_s("%d", &choice);
+		getchar();
 		switch (choice) {
 		case 1:
-			printf("not implemented yet \n");
+			addNewBook(library.bookManager);
 			break;
 		case 2:
 			printf("not implemented yet \n");

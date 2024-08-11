@@ -17,8 +17,8 @@ typedef struct Book
 	char* name;
 	Genre genre;
 	int copiesAvailable;
-	Author author;
-	Publisher publisher;
+	Author* author;
+	Publisher* publisher;
 }Book;
 
 typedef struct BookManager

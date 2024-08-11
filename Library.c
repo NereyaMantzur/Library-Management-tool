@@ -3,9 +3,9 @@
 
 int initLibrary(Library* library) {
 	printf("initializing Library system\n");
-	int book = initBookManager(&library->bookManager);
-	int loan = initLoanManager(&library->loanManager);
-	int member = initMemberManager(&library->memberManager);
+	int book = initBookManager(library->bookManager);
+	int loan = initLoanManager(library->loanManager);
+	int member = initMemberManager(library->memberManager);
 
 	if (book && loan && member )
 	{
