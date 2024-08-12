@@ -13,10 +13,10 @@ Publisher* initPublisher()
 	{
 		return NULL;
 	}
-	printf("Please enter publisher name: \n");
+	printf("Please enter publisher name: ");
 	newPublisher->name = getStr();
 
-	printf("Please enter publisher Email: \n");
+	printf("Please enter publisher Email: ");
 	newPublisher->email = getStr();
 
 	newPublisher->booksPublished = NULL;

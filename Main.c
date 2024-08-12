@@ -1,6 +1,8 @@
 ﻿#include <stdio.h>
 
 #include "Library.h"
+#include "General.h"
+
 
 void headMessage();
 void PrintMenu();
@@ -42,10 +44,11 @@ int main()
 			printf("not implemented yet \n");
 			break;
 		case 9:
-			printf("not implemented yet \n");
+			sortBooks(library->bookManager);
 			break;
-		case 10:
-			printf("not implemented yet \n");
+		case 10:			
+			printf("\n=============================== books available ===========================\n\n");
+			printBookArr(library->bookManager->BookPtrArr, library->bookManager->count);
 			break;
 		case 11:
 			printf("not implemented yet \n");
@@ -56,13 +59,16 @@ int main()
 		case 13:
 			printf("closing program!\n");
 		break; 
+		case 14:
+			printf("closing program!\n");
+			break;
 		default:
-			printf("Not valid Choice!\n");
+			handleError("Not valid Choice!");
 			break;
 		}
 		
 		printf("\n");
-	} while (choice != 13);
+	} while (choice != 14);
 }
 
 void headMessage()
@@ -87,12 +93,13 @@ void PrintMenu()
 	printf("   [4]  - Remove Member\n");
 	printf("   [5]  - Add New Loan\n");
 	printf("   [6]  - Return Book Loan\n");
-	printf("   [7]  - Search a Book\n");
-	printf("   [8]  - Search a Member\n");
-	printf("   [9]  - Print All Available Books\n");
-	printf("   [10] - Print All Loaned Books\n");
-	printf("   [11] - Print All Members\n");
-	printf("   [12] - Print Popular Books\n");
-	printf("   [13] - Exit Program\n");
+	printf("   [7]  - Sort books\n");
+	printf("   [8]  - Search a Book\n");
+	printf("   [9]  - Search a Member\n");
+	printf("   [10] - Print All Available Books\n");
+	printf("   [11] - Print All Loaned Books\n");
+	printf("   [12] - Print All Members\n");
+	printf("   [13] - Print Popular Books\n");
+	printf("   [14] - Exit Program\n");
 	printf(" Please enter your choice:");
 }

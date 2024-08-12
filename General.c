@@ -1,26 +1,28 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 
-#define MAX_NAME 30
+#include "General.h"
 
 
 char* getStr() {
-	char temp[MAX_NAME];
-	fgets(temp, MAX_NAME, stdin);
+    char temp[MAX_NAME];
+    scanf_s("%s", temp, (unsigned)sizeof(temp));
 
-	temp[strcspn(temp, "\n")] = '\0';
+    char* str = malloc(strlen(temp) + 1);
+    if (str) {
+        strcpy(str, temp);
+        str[0] = toupper(str[0]);
+        for (int i = 1; str[i]; i++)
+            str[i] = tolower(str[i]);
+    }
 
-	char* str = malloc(strlen(temp) + 1);
-	strcpy_s(str, sizeof(temp), temp);
+    return str;
+}
 
-	if (*str) {
-		*str = toupper(*str);
-		for (char* p = str + 1; *p; ++p) {
-			*p = tolower(*p);
-		}
-	}
 
-	return str;
+void handleError(const char* message) {
+    fprintf(stderr, RED_TEXT "Error: %s\n" RESET_COLOR, message);
 }

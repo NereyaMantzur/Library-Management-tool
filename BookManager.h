@@ -39,6 +39,9 @@ int freeBook(Book* book);
 
 
 void swap(Book* bookA, Book* bookB);
-int compareBookByName(void* bookA, void* bookB);
+void sortBooks(BookManager* manager);
+int compareBookByName(const void* a, const void* b);
+int compareBookByGenre(const void* a, const void* b);
+int compareBookByAuthor(const void* a, const void* b);
 
 #endif // !BOOKMANAGER_H
