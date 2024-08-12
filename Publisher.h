@@ -3,7 +3,6 @@
 
 
 
-
 typedef struct {
     char* name;
     char* email;
@@ -14,4 +13,4 @@ Publisher* initPublisher();
 void printPublisher(Publisher* publisher);
 void freePublisher(Publisher* publisher);
 
-#endif
+#endif // !PUBLISHER_H

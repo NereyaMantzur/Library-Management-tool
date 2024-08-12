@@ -15,27 +15,6 @@ BookManager* initBookManager( )
 	}
 	manager->BookPtrArr = NULL;
 	manager->count = 0;
-	int choice;
-	do
-	{
-		printf("[1] - Add new book\n");
-		printf("[2] - Exit book initialization \n");
-		printf("Please enter your choice: ");
-		scanf_s("%d", &choice);
-		getchar();
-		switch (choice)
-		{
-		case 1:
-			addNewBook(manager);
-			break;
-		case 2: 
-			printf("\nExiting books initialization\n");
-			break;
-		default:
-			printf("\nInvalid choice!\n");
-			break;
-		}
-	} while (choice != 2);
 	return manager;
 }
 
@@ -74,7 +53,7 @@ int addNewBook(BookManager* manager)
 	{
 		if (compareBookByName(add, manager->BookPtrArr[i]) == 0)
 		{
-			printf("Book already exists! \n\n");
+			printf("\t\tBook already exists! \n\n");
 			return 0;
 		}
 	}
@@ -88,15 +67,10 @@ int addNewBook(BookManager* manager)
 int removeBook(BookManager* manager)
 {
 	printf("\n=============================== Book removing =============================\n\n");
-	if (!manager->BookPtrArr )
-	{
-
-	}
-	printf("\n- Books in the system:\n\n");
 	printBookArr(manager->BookPtrArr, manager->count);
 	printf("Please enter name of the book you want to remove: ");
 	char* bookName = getStr();
-	for (int i = 0; i < manager->count - 1; i++)
+	for (int i = 0; i < manager->count; i++)
 	{
 		if (strcmp(bookName,manager->BookPtrArr[i]->name) == 0)
 		{
@@ -107,63 +81,15 @@ int removeBook(BookManager* manager)
 			return 1;
 		}
 	}
-	printf("\n============================ Failed to remove book ==========================\n\n");
+	printf("\n=========================== Failed to remove book =========================\n\n");
 	return 0;
 }
-
-void sortBooks(BookManager* manager) {
-	int choice;
-	printf("[1] Sort books by name\n");
-	printf("[2] Sort books by genre\n");
-	printf("[3] Sort books by author\n");
-	printf("Please enter your choice: ");
-	scanf_s("%d", &choice);
-
-	switch (choice) {
-	case 1:
-		qsort(manager->BookPtrArr, manager->count, sizeof(Book*), compareBookByName);
-		printBookArr(manager->BookPtrArr, manager->count);
-		break;
-	case 2:
-		qsort(manager->BookPtrArr, manager->count, sizeof(Book*), compareBookByGenre);
-		printBookArr(manager->BookPtrArr, manager->count);
-		break;
-	case 3:
-		qsort(manager->BookPtrArr, manager->count, sizeof(Book*), compareBookByAuthor);
-		printBookArr(manager->BookPtrArr, manager->count);
-		break;
-	default:
-		handleError("Invalid choice!");
-		break;
-	}
-}
-
-
-int compareBookByName(const void* a, const void* b) {
-	Book* bookA = *(Book**)a;
-	Book* bookB = *(Book**)b;
-	return strcmp(bookA->name, bookB->name);
-}
-
-int compareBookByGenre(const void* a, const void* b) {
-	Book* bookA = *(Book**)a;
-	Book* bookB = *(Book**)b;
-	return bookA->genre - bookB->genre;
-}
-
-int compareBookByAuthor(const void* a, const void* b) {
-	Book* bookA = *(Book**)a;
-	Book* bookB = *(Book**)b;
-	return strcmp(bookA->author->name, bookB->author->name);
-}
-
-
 
 void printBookArr(const Book** bookPtrArr, int count)
 {
 	if (count == 0)
 	{
-		printf("No books in the system!\n");
+		handleError("No books in the system!\n");
 		return;
 	}
 
@@ -180,14 +106,61 @@ void printBook(const Book* book)
 	printf("%-15s|%-15d|%-15s|%-15s|%d\n", book->name , book->genre , book->author->name,book->publisher->name,book->copiesAvailable );
 }
 
-int freeBook(Book* book)
-{
-	free(book);
-	return 1;
-}
-
 void swap(Book* bookA, Book* bookB) {
 	Book temp = *bookA;
 	*bookA = *bookB;
 	*bookB = temp;
+}
+
+void sortBooks(BookManager* manager) {
+	int choice;
+	printf("\t\t[1] - Sort books by name\n");
+	printf("\t\t[2] - Sort books by genre\n");
+	printf("\t\t[3] - Sort books by author\n");
+	printf("\t\tPlease enter your choice: ");
+	scanf_s("%d", &choice);
+
+	switch (choice) {
+	case 1:
+		qsort(manager->BookPtrArr, manager->count, sizeof(Book*), compareBookByName);
+		break;
+	case 2:
+		qsort(manager->BookPtrArr, manager->count, sizeof(Book*), compareBookByGenre);
+		break;
+	case 3:
+		qsort(manager->BookPtrArr, manager->count, sizeof(Book*), compareBookByAuthor);
+		break;
+	default:
+		handleError("\t\tInvalid choice!");
+		break;
+	}
+		printBookArr(manager->BookPtrArr, manager->count);
+}
+
+
+int compareBookByName(const void* a, const void* b) {
+	Book* bookA = (Book*)a;
+	Book* bookB = (Book*)b;
+	return strcmp(bookA->name, bookB->name);
+}
+
+int compareBookByGenre(const void* a, const void* b) {
+	Book* bookA = (Book*)a;
+	Book* bookB = (Book*)b;
+	return bookA->genre - bookB->genre;
+}
+
+int compareBookByAuthor(const void* a, const void* b) {
+	Book* bookA = (Book*)a;
+	Book* bookB = (Book*)b;
+	return strcmp(bookA->author->name, bookB->author->name);
+}
+
+
+
+
+int freeBook(Book* book)
+{
+	free(book);
+	return 1;
 }

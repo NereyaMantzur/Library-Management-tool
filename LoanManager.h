@@ -25,7 +25,7 @@ typedef struct {
 
 LoanManager* initLoanManager();
 
-#endif
+#endif // !LOAN_H
 
 
 

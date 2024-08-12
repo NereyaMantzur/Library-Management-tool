@@ -14,5 +14,5 @@ Author* initAuthor();
 void printAuthor(Author* author);
 void freeAuthor(Author* author);
 
-#endif
+#endif // !AUTHOR_H
 

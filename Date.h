@@ -7,5 +7,5 @@ typedef struct {
     int year;
 } Date;
 
-#endif
+#endif // !DATE_H
 
