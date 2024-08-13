@@ -55,7 +55,7 @@ int main()
 			printMemberArr(library->memberManager->memberArr,library->memberManager->count);
 			break;
 		case 11:
-			printf("not implemented yet \n");
+			printLoanList(library->loanManager);
 			break;
 		case 12:
 			printf("closing program!\n");
@@ -100,7 +100,7 @@ void PrintMenu()
 	printf("[8]  - Search a Book\n");            //DONE
 	printf("[9]  - Print All Available Books\n");//DONE
 	printf("[10] - Print All Members\n");        //DONE
-	printf("[11] - Print All Loaned Books\n");
+	printf("[11] - Print All Loaned Books\n");   //DONE NEED FIX
 	printf("[12] - Print Popular Books\n");
 	printf("[13] - Exit Program\n");
 	printf("Please enter your choice: ");

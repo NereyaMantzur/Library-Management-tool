@@ -81,6 +81,16 @@ int loanBook(BookManager* bookManager, LoanManager* loanManager, Book* book, Mem
 	return 0;
 }
 
+void returnBook(BookManager* bookManager, LoanManager* loanManager, MemberManager* memberManager)
+{
+	int member;
+	printMemberArr(memberManager->memberArr , memberManager->count);
+	printf("Which member want to retun a book (#): ");
+	scanf("%d", &member);
+	getchar();
+
+}
+
 int addLoanToLoanArr(Member* member, Loan* loan)
 {
 	for (size_t i = 0; i < MAX_BOOKS; i++)
@@ -107,4 +117,37 @@ int removeLoanFromLoanArr(Member* member, Loan* loan)
 	}
 	handleError("Maximum books allowed already reached!");
 	return 0;
+}
+
+void printLoan(Loan* loan)
+{
+	if (!loan)
+		return;
+	switch (loan->status)
+	{
+	case OVERDUE:
+		printf("%-15s|%-15s|%-15s|", loan->member->name, loan->book->name, "Date!!/!!/!!!!!");
+		handleError("OVERDUE\n");
+		break;
+	case ACTIVE:
+		printf("%-15s|%-15s|%-15s|ACTIVE", loan->member->name, loan->book->name, "Date!!/!!/!!!!!\n");
+		break;
+	default:
+		break;
+	}
+}
+
+void printLoanList(LoanManager* manager)
+{
+	ListNode* head = manager->loanList.head->next;
+	int i = 1;
+
+	printf("#  |Member name    |Book name      |Date of return |Status\n");
+	while (head)
+	{
+		printf("%-2d |", i );
+		printLoan((Loan*)head->data);
+		head = head->next;
+		i++;
+	}
 }

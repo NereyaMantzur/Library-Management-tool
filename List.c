@@ -10,7 +10,7 @@ List* initList()
 	{
 		return NULL;
 	}
-	list->head = NULL;
+	list->head = initListNode();
 	return list;
 }
 
@@ -35,9 +35,11 @@ List* insertFirst(List* list, void* data) {
 	if (!newNode) {
 		return NULL;
 	}
+
 	newNode->data = data;
-	newNode->next = list->head;
-	list->head = newNode;
+	newNode->next = list->head->next;
+	list->head->next = newNode;
+
 	return list;
 }
 

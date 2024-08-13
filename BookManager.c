@@ -105,6 +105,10 @@ int printBookArr(const Book** bookPtrArr, int count)
 
 void printBook(const Book* book)
 {
+	if (!book)
+	{
+		return;
+	}
 	printf("%-15s|%-15d|%-15s|%-15s|%d\n", book->name , book->genre , book->author->name,book->publisher->name,book->copiesAvailable );
 }
 
