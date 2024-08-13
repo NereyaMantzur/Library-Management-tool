@@ -1,5 +1,6 @@
 ﻿#include <stdio.h>
 #include <stdlib.h>
+#include <conio.h>
 
 #include "Library.h"
 #include "General.h"
@@ -82,25 +83,25 @@ void headMessage()
 	printf("############                                                   ############\n");
 	printf("###########################################################################\n\n");
 	printf("Press any key to continue...\n");
-	getchar();
+	_getch();
 	system("cls");
 }
 
 void PrintMenu()
 {
 	printf("================================ Main menu ================================\n\n");
-	printf("\t[1]  - Add New Book\n");             //DONE
-	printf("\t[2]  - Remove Book\n");              //DONE
-	printf("\t[3]  - Add New Member\n");           //DONE
-	printf("\t[4]  - Remove Member\n");            //DONE
-	printf("\t[5]  - Add New Loan\n");             //DONE
-	printf("\t[6]  - Return Book Loan\n");
-	printf("\t[7]  - Sort books\n");               //DONE
-	printf("\t[8]  - Search a Book\n");            //DONE
-	printf("\t[9] - Print All Available Books\n"); //DONE
-	printf("\t[10] - Print All Members\n");        //DONE
-	printf("\t[11] - Print All Loaned Books\n");
-	printf("\t[12] - Print Popular Books\n");
-	printf("\t[13] - Exit Program\n");
-	printf("\tPlease enter your choice:");
+	printf("[1]  - Add New Book\n");             //DONE
+	printf("[2]  - Remove Book\n");              //DONE
+	printf("[3]  - Add New Member\n");           //DONE
+	printf("[4]  - Remove Member\n");            //DONE
+	printf("[5]  - Add New Loan\n");             //DONE
+	printf("[6]  - Return Book Loan\n");
+	printf("[7]  - Sort books\n");               //DONE
+	printf("[8]  - Search a Book\n");            //DONE
+	printf("[9]  - Print All Available Books\n");//DONE
+	printf("[10] - Print All Members\n");        //DONE
+	printf("[11] - Print All Loaned Books\n");
+	printf("[12] - Print Popular Books\n");
+	printf("[13] - Exit Program\n");
+	printf("Please enter your choice: ");
 }

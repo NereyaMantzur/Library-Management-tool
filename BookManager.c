@@ -52,9 +52,9 @@ int addNewBook(BookManager* manager)
 	Book* add = initBook();
 	for (size_t i = 0; i < manager->count; i++)
 	{
-		if (compareBookByName(add, manager->BookPtrArr[i]) == 0)
+		if (compareBookByName(&add, &manager->BookPtrArr[i]) == 0)
 		{
-			printf("\t\tBook already exists! \n\n");
+			printf("Book already exists! \n\n");
 			return 0;
 		}
 	}
@@ -78,7 +78,7 @@ int removeBook(BookManager* manager)
 			swap(manager->BookPtrArr[i], manager->BookPtrArr[manager->count - 1]);
 			freeBook(manager->BookPtrArr[manager->count - 1]);
 			manager->count--;
-			printf("\n================================ Book removed! ==============================\n\n");
+			printf("\n============================== Book removed! ==============================\n\n");
 			return 1;
 		}
 	}
@@ -116,10 +116,10 @@ void swap(Book* bookA, Book* bookB) {
 
 void sortBooks(BookManager* manager) {
 	int choice;
-	printf("\t\t[1] - Sort books by name\n");
-	printf("\t\t[2] - Sort books by genre\n");
-	printf("\t\t[3] - Sort books by author\n");
-	printf("\t\tPlease enter your choice: ");
+	printf("\n[1] - Sort books by name\n");
+	printf("[2] - Sort books by genre\n");
+	printf("[3] - Sort books by author\n");
+	printf("Please enter your choice: ");
 	scanf_s("%d", &choice);
 
 	switch (choice) {
@@ -133,7 +133,7 @@ void sortBooks(BookManager* manager) {
 		qsort(manager->BookPtrArr, manager->count, sizeof(Book*), compareBookByAuthor);
 		break;
 	default:
-		handleError("\t\tInvalid choice!");
+		handleError("Invalid choice!");
 		break;
 	}
 		printBookArr(manager->BookPtrArr, manager->count);
@@ -144,31 +144,31 @@ Book* searchBook(BookManager* manager)
 	Book* temp  = (Book*)malloc(sizeof(Book));
 	int choice;
 	Book** res = NULL;
-	printf("\t\t[1] - search book by name\n");
-	printf("\t\t[2] - search book by genre\n");
-	printf("\t\t[3] - search book by author\n");
-	printf("\t\tPlease enter your choice: ");
+	printf("\n[1] - search book by name\n");
+	printf("[2] - search book by genre\n");
+	printf("[3] - search book by author\n");
+	printf("Please enter your choice: ");
 	scanf_s("%d", &choice);
 	getchar();
 	switch (choice) {
 	case 1:
-		printf("\t\tPlease enter the name of the book: ");
+		printf("Please enter the name of the book: ");
 		temp->name =getStr();
 		res = (Book**)bsearch(&temp,manager->BookPtrArr,manager->count,sizeof(Book*),compareBookByName);
 		break;
 	case 2:
-		printf("\t\tPlease enter the genre of the book: ");
+		printf("Please enter the genre of the book: ");
 		scanf_s("%d", &temp->genre);
 		getchar();
 		res = (Book**)bsearch(&temp, manager->BookPtrArr, manager->count, sizeof(Book*), compareBookByGenre);
 		break;
 	case 3:
-		printf("\t\tPlease enter the author of the book: ");
+		printf("Please enter the author of the book: ");
 		strcpy(temp->author->name ,getStr());
 		res = (Book**)bsearch(&temp, manager->BookPtrArr, manager->count, sizeof(Book*), compareBookByAuthor);
 		break;
 	default:
-		handleError("\t\tInvalid choice!");
+		handleError("Invalid choice!");
 		break;
 	}
 	if (res)

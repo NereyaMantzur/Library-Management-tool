@@ -67,15 +67,15 @@ int removeMember(MemberManager* manager)
 	{
 		if (memberID == manager->memberArr[i].memberID)
 		{
-			//if (manager->memberArr[i].loanArr != NULL)
-			//{
-			//	printf("\n=========================== Failed to remove member =========================\n\n");
-			//	return 0;
-			//}
+			if (manager->memberArr[i].loanArr != NULL)
+			{
+				printf("\n=========================== Failed to remove member =========================\n\n");
+				return 0;
+			}
 			swapMembers(&manager->memberArr[i], &manager->memberArr[manager->count - 1]);
 			freeMember(&manager->memberArr[manager->count - 1]);
 			manager->count--;
-			printf("\n=============================== member removed! =============================\n\n");
+			printf("\n============================= member removed! =============================\n\n");
 			return 1;
 		}
 	}
