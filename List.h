@@ -10,7 +10,13 @@ typedef struct ListNode
 
 typedef struct List
 {
-	ListNode head;
+	ListNode* head;
 }List;
+
+List* initList();
+ListNode* initListNode();
+List* insertFirst(List* list, void* data);
+int deleteNode(ListNode* node);
+
 
 #endif // !LIST_H

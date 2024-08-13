@@ -31,8 +31,10 @@ Member* initMember()
 	newMember->name = getStr();
 	printf("Please enter phone numer [10 digits]: ");
 	newMember->phoneNumber = initPhoneNumber();
-	//newMember->loanArr = initLoanArr(MAX_BOOKS);
-
+	for (size_t i = 0; i < MAX_BOOKS; i++)
+	{
+		newMember->loanArr[i] = NULL;
+	}
 	return newMember;
 }
 
@@ -81,12 +83,14 @@ int removeMember(MemberManager* manager)
 	return 0;
 }
 
-void printMemberArr(const Member* memberArr, int count)
+
+
+int printMemberArr(const Member* memberArr, int count)
 {
 	if (count == 0)
 	{
 		handleError("No members in the system!\n");
-		return;
+		return 0;
 	}
 
 	printf("#  |Member ID      |Member name    |Member phone number\n");
@@ -95,6 +99,7 @@ void printMemberArr(const Member* memberArr, int count)
 		printf("%-2d |", i + 1);
 		printMember(&memberArr[i]);
 	}
+	return 1;
 }
 
 void printMember(const Member* member)

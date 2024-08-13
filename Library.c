@@ -11,13 +11,9 @@ Library* initLibrary() {
 	}
 	printf("initializing Library system\n");
 
-	BookManager* book = initBookManager();
-	LoanManager* loan = initLoanManager(library->loanManager);
-	MemberManager* member = initMemberManager(library->memberManager);
-
-	library->bookManager = book;
-	library->loanManager = loan;
-	library->memberManager = member;
+	library->bookManager = initBookManager();
+	library->loanManager = initLoanManager();
+	library->memberManager = initMemberManager();
 
 	return library;
 }

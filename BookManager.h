@@ -33,13 +33,14 @@ BookManager* initBookManager();
 Book* initBook();
 int addNewBook(BookManager* manager);
 int removeBook(BookManager* manager);
-void printBookArr(const Book** bookPtrArr, int count);
+int printBookArr(const Book** bookPtrArr, int count);
 void printBook(const Book*);
 int freeBook(Book* book);
 
 
 void swap(Book* bookA, Book* bookB);
 void sortBooks(BookManager* manager);
+Book* searchBook(BookManager* manager);
 int compareBookByName(const void* a, const void* b);
 int compareBookByGenre(const void* a, const void* b);
 int compareBookByAuthor(const void* a, const void* b);

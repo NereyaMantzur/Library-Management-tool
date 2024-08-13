@@ -7,5 +7,8 @@ typedef struct {
     int year;
 } Date;
 
+int printTime();
+int add30DaysToCurrentTime();
+
 #endif // !DATE_H
 

@@ -1,7 +1,9 @@
 ﻿#include <stdio.h>
+#include <stdlib.h>
 
 #include "Library.h"
 #include "General.h"
+#include "Date.h"
 
 
 void headMessage();
@@ -10,9 +12,10 @@ void PrintMenu();
 //program starts here
 int main()
 {
+	printTime();
+	add30DaysToCurrentTime();
 	headMessage();
 	Library* library = initLibrary();
-
 	int choice;
 	do {
 		PrintMenu();
@@ -32,7 +35,7 @@ int main()
 			removeMember(library->memberManager);
 			break;
 		case 5:
-			printf("not implemented yet \n");
+			addNewLoan(library->bookManager, library->loanManager, library->memberManager);
 			break;
 		case 6:
 			printf("not implemented yet \n");
@@ -41,25 +44,22 @@ int main()
 			sortBooks(library->bookManager);
 			break;
 		case 8:
-			printf("not implemented yet \n");
+			searchBook(library->bookManager);
 			break;
-		case 9:
-			printf("not implemented yet \n");
-			break;
-		case 10:			
+		case 9:			
 			printf("\n=============================== books available ===========================\n\n");
 			printBookArr(library->bookManager->BookPtrArr, library->bookManager->count);
 			break;
-		case 11:
+		case 10:
 			printMemberArr(library->memberManager->memberArr,library->memberManager->count);
 			break;
-		case 12:
+		case 11:
 			printf("not implemented yet \n");
 			break;
-		case 13:
+		case 12:
 			printf("closing program!\n");
 		break; 
-		case 14:
+		case 13:
 			printf("closing program!\n");
 			break;
 		default:
@@ -68,7 +68,7 @@ int main()
 		}
 		
 		printf("\n");
-	} while (choice != 14);
+	} while (choice != 13);
 }
 
 void headMessage()
@@ -81,7 +81,9 @@ void headMessage()
 	printf("############          Nereya Mantzur & Simon Farber            ############\n");
 	printf("############                                                   ############\n");
 	printf("###########################################################################\n\n");
-
+	printf("Press any key to continue...\n");
+	getchar();
+	system("cls");
 }
 
 void PrintMenu()
@@ -91,15 +93,14 @@ void PrintMenu()
 	printf("\t[2]  - Remove Book\n");              //DONE
 	printf("\t[3]  - Add New Member\n");           //DONE
 	printf("\t[4]  - Remove Member\n");            //DONE
-	printf("\t[5]  - Add New Loan\n");
+	printf("\t[5]  - Add New Loan\n");             //DONE
 	printf("\t[6]  - Return Book Loan\n");
-	printf("\t[7]  - Sort books\n");
-	printf("\t[8]  - Search a Book\n");
-	printf("\t[9]  - Search a Member\n");
-	printf("\t[10] - Print All Available Books\n");//DONE
-	printf("\t[11] - Print All Members\n");        //DONE
-	printf("\t[12] - Print All Loaned Books\n");
-	printf("\t[13] - Print Popular Books\n");
-	printf("\t[14] - Exit Program\n");
+	printf("\t[7]  - Sort books\n");               //DONE
+	printf("\t[8]  - Search a Book\n");            //DONE
+	printf("\t[9] - Print All Available Books\n"); //DONE
+	printf("\t[10] - Print All Members\n");        //DONE
+	printf("\t[11] - Print All Loaned Books\n");
+	printf("\t[12] - Print Popular Books\n");
+	printf("\t[13] - Exit Program\n");
 	printf("\tPlease enter your choice:");
 }
