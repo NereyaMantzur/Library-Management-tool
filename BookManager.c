@@ -68,7 +68,8 @@ int addNewBook(BookManager* manager)
 int removeBook(BookManager* manager)
 {
 	printf("\n========================================== Book removing ========================================\n\n");
-	printBookArr(manager->BookPtrArr, manager->count);
+	if (!printBookArr(manager->BookPtrArr, manager->count))
+		return 0;
 	printf("Please enter name of the book you want to remove: ");
 	char* bookName = getStr();
 	for (int i = 0; i < manager->count; i++)
