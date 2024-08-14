@@ -1,8 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
+
 #include "Library.h"
 
-Library* initLibrary() {
+
+Library* initLibrary() 
+{
 	Library* library = (Library*)malloc(sizeof(Library));
 	if (!library)
 	{
@@ -16,6 +19,18 @@ Library* initLibrary() {
 	library->memberManager = initMemberManager();
 
 	return library;
+}
+
+void refreshLibraryLoans(LoanManager* manager)
+{
+	ListNode* head = (manager->loanList).head->next;
+	while (!head)
+	{
+		if (isOverdue(&((Loan*)head->data)->dateOfReturn))
+		{
+			((Loan*)head->data)->status = OVERDUE;
+		}
+	}
 }
 
 

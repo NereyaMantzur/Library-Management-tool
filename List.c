@@ -43,15 +43,19 @@ List* insertFirst(List* list, void* data) {
 	return list;
 }
 
-
-int deleteNode(ListNode* node) {
-	if (!node || !node->next) {
+int deleteNode(List* list, ListNode* node) {
+	if (!list || !node || !node->next) {
 		return 0;
 	}
+
 	ListNode* temp = node->next;
+	node->data = temp->data;
 	node->next = temp->next;
 	free(temp);
+
 	return 1;
 }
+
+
 
 

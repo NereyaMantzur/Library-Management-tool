@@ -16,7 +16,6 @@ typedef struct List
 List* initList();
 ListNode* initListNode();
 List* insertFirst(List* list, void* data);
-int deleteNode(ListNode* node);
-
+int deleteNode(List* list, ListNode* node);
 
 #endif // !LIST_H

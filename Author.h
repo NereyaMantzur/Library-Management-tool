@@ -4,6 +4,7 @@
 // Forward declaration
  struct BookManager;
  struct Book;
+
 typedef struct {
     char* name;
     struct Book* next;

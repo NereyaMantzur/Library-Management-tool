@@ -1,32 +1,49 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
+#include <stdlib.h>
 #include <time.h>
 
+#include "Date.h"
 
+Date* initDate()
+{
+    Date* newDate = (Date*)malloc(sizeof(Date));
+    if (!newDate)
+    {
+        return NULL;
+    }
 
-int printTime() {
-    char dateStr[11];
-
-    time_t t = time(NULL);
-
-    strftime(dateStr, sizeof(dateStr), "%d/%m/%Y", localtime(&t));
-
-    printf("Current date: %s\n", dateStr);
-
-    return 0;
+    newDate->day = 0;
+    newDate->month = 0;
+    newDate->year = 0;
+    return newDate;
 }
 
-int add30DaysToCurrentTime()
+void printDate(const Date* date)
 {
-    char dateStr[11]; // Buffer to hold the date string
+
+    printf("%2d/%2d/%4d", date->day,date->month,date->year);
+}
+
+Date* add30DaysToCurrentTime(Date* date)
+{
 
     time_t t = time(NULL); // Get the current time
-    t += 30 * 24 * 60 * 60; // Add 30 days' worth of seconds to the current time
+    struct tm currentTime = *localtime(&t); // Convert to local time structure
 
-    // Format the new date as "dd/mm/yyyy" using the localtime directly
-    strftime(dateStr, sizeof(dateStr), "%d/%m/%Y", localtime(&t));
+    // Add 30 days
+    currentTime.tm_mday += 30;
 
-    printf("Date after 30 days: %s\n", dateStr);
+    // Normalize the time structure (mktime will handle month/year overflow)
+    mktime(&currentTime);
 
-    return 0;
+    date->day = currentTime.tm_mday;
+    date->month = currentTime.tm_mon + 1;
+    date->year = currentTime.tm_year + 1900;
+
+    // Print the new date
+    printf("Date After 30 Days: %02d/%02d/%04d\n", currentTime.tm_mday, currentTime.tm_mon + 1, currentTime.tm_year + 1900);
+
+    return date;
 }
+

@@ -5,12 +5,17 @@
 #include "MemberManager.h"
 #include "LoanManager.h"
 
+// Define Library structure
 typedef struct {
     BookManager* bookManager;
     LoanManager* loanManager;
     MemberManager* memberManager;
 } Library;
 
+// Function declarations
 Library* initLibrary();
-#endif
+void refreshLibraryLoans(LoanManager* manager);
+
+#endif // LIBRARY_H
+
 

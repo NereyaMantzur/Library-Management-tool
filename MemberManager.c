@@ -31,6 +31,7 @@ Member* initMember()
 	newMember->name = getStr();
 	printf("Please enter phone numer [10 digits]: ");
 	newMember->phoneNumber = initPhoneNumber();
+	newMember->loanCount = 0;
 	for (size_t i = 0; i < MAX_BOOKS; i++)
 	{
 		newMember->loanArr[i] = NULL;
@@ -40,7 +41,7 @@ Member* initMember()
 
 int addNewMember(MemberManager* manager)
 {
-	printf("\n============================== Member adding ==============================\n\n");
+	printf("\n========================================= Member adding =========================================\n\n");
 
 	manager->memberArr = (Member*)realloc(manager->memberArr, sizeof(Member) * (manager->count + 1));
 	if (!manager->memberArr)
@@ -51,13 +52,13 @@ int addNewMember(MemberManager* manager)
 	add->memberID = manager->nextID++;
 	manager->memberArr[manager->count] = *add;
 	manager->count++;
-	printf("\n========================= Member added suuccesfully! ======================\n\n");
+	printf("\n==================================== Member added suuccesfully! =================================\n\n");
 	return 1;
 }
 
 int removeMember(MemberManager* manager)
 {
-	printf("\n============================== member removing ============================\n\n");
+	printf("\n========================================= member removing =======================================\n\n");
 	printMemberArr(manager->memberArr, manager->count);
 	printf("Please enter ID of the member you want to remove: ");
 	int memberID;
@@ -67,22 +68,21 @@ int removeMember(MemberManager* manager)
 	{
 		if (memberID == manager->memberArr[i].memberID)
 		{
-			if (manager->memberArr[i].loanArr != NULL)
+			if (manager->memberArr[i].loanCount > 0)
 			{
-				printf("\n=========================== Failed to remove member =========================\n\n");
+				handleError("Member still have ACTIVE loans!");
+				printf("\n====================================== Failed to remove member ====================================\n\n");
 				return 0;
 			}
 			swapMembers(&manager->memberArr[i], &manager->memberArr[manager->count - 1]);
-			freeMember(&manager->memberArr[manager->count - 1]);
 			manager->count--;
-			printf("\n============================= member removed! =============================\n\n");
+			printf("\n======================================== member removed! ========================================\n\n");
 			return 1;
 		}
 	}
-	printf("\n========================== Failed to remove member ========================\n\n");
+	printf("\n===================================== Failed to remove member ===================================\n\n");
 	return 0;
 }
-
 
 
 int printMemberArr(const Member* memberArr, int count)
@@ -93,7 +93,7 @@ int printMemberArr(const Member* memberArr, int count)
 		return 0;
 	}
 
-	printf("#  |Member ID      |Member name    |Member phone number\n");
+	printf("#  |Member ID           |Member name         |Member phone number\n");
 	for (int i = 0; i < count; i++)
 	{
 		printf("%-2d |", i + 1);
@@ -104,7 +104,7 @@ int printMemberArr(const Member* memberArr, int count)
 
 void printMember(const Member* member)
 {
-	printf("%-15d|%-15s|%s\n", member->memberID, member->name, member->phoneNumber);
+	printf("%-20d|%-20s|%s\n", member->memberID, member->name, member->phoneNumber);
 }
 
 void swapMembers(Member* memberA, Member* memberB)
@@ -115,12 +115,6 @@ void swapMembers(Member* memberA, Member* memberB)
 	*memberB = temp;
 }
 
-int freeMember(Member* member)
-{
-	//freeLoanArr(member->loanArr);
-	free(member);
-	return 1;
-}
 
 char* initPhoneNumber()
 {
