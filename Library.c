@@ -24,6 +24,10 @@ Library* initLibrary()
 void refreshLibraryLoans(LoanManager* manager)
 {
 	ListNode* head = (manager->loanList).head->next;
+	if (!head)
+	{
+		return;
+	}
 	while (!head)
 	{
 		if (isOverdue(&((Loan*)head->data)->dateOfReturn))

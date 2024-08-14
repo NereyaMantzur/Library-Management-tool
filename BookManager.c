@@ -34,7 +34,6 @@ Book* initBook()
 	printf("Please enter number of copies: ");
 	scanf_s("%d", &newBook->copiesAvailable);
 	getchar();
-	newBook->publisher = initPublisher();
 	newBook->author = initAuthor();
 	
 	return newBook;
@@ -54,13 +53,13 @@ int addNewBook(BookManager* manager)
 	{
 		if (compareBookByName(&add, &manager->BookPtrArr[i]) == 0)
 		{
-			printf("Book already exists! \n\n");
+			handleError("Book already exists! \n\n");
 			return 0;
 		}
 	}
 	manager->BookPtrArr[manager->count] = add;
 	manager->count++;
-	printf("\n===================================== Book added suuccesfully! ==================================\n\n");
+	printf("\n===================================== Book added succesfully! ===================================\n\n");
 	return 1;
 }
 
@@ -79,6 +78,7 @@ int removeBook(BookManager* manager)
 			swap(manager->BookPtrArr[i], manager->BookPtrArr[manager->count - 1]);
 			freeBook(manager->BookPtrArr[manager->count - 1]);
 			manager->count--;
+			manager->BookPtrArr = (Book**)realloc(manager->BookPtrArr, manager->count * sizeof(Book*));
 			printf("\n========================================= Book removed! =========================================\n\n");
 			return 1;
 		}
@@ -95,7 +95,7 @@ int printBookArr(const Book** bookPtrArr, int count)
 		return 0;
 	}
 
-	printf("#  |Book name           |Genre               |Author              |Publisher           |Available\n");
+	printf("#  |Book name           |Genre               |Author              |Available\n");
 	for (int i = 0; i < count; i++)
 	{
 		printf("%-2d |", i + 1);
@@ -110,7 +110,7 @@ void printBook(const Book* book)
 	{
 		return;
 	}
-	printf("%-20s|%-20d|%-20s|%-20s|%d\n", book->name , book->genre , book->author->name,book->publisher->name,book->copiesAvailable );
+	printf("%-20s|%-20d|%-20s|%d\n", book->name , book->genre , book->author->name,book->copiesAvailable );
 }
 
 void swap(Book* bookA, Book* bookB) {
@@ -178,7 +178,8 @@ Book* searchBook(BookManager* manager)
 	}
 	if (res)
 	{
-		printf("Book name           |Genre               |Author              |Publisher           |Available\n");
+		printf("\nBook found!\n");
+		printf("Book name           |Genre               |Author              |Available\n");
 		printBook(*res);
 		return *res;
 	}

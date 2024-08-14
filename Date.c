@@ -4,6 +4,7 @@
 #include <time.h>
 
 #include "Date.h"
+#include "General.h"
 
 Date* initDate()
 {
@@ -42,7 +43,7 @@ Date* add30DaysToCurrentTime(Date* date)
     date->year = currentTime.tm_year + 1900;
 
     // Print the new date
-    printf("Date After 30 Days: %02d/%02d/%04d\n", currentTime.tm_mday, currentTime.tm_mon + 1, currentTime.tm_year + 1900);
+    printf(RED_TEXT "Date of return: %02d/%02d/%04d\n" RESET_COLOR, currentTime.tm_mday, currentTime.tm_mon + 1, currentTime.tm_year + 1900);
 
     return date;
 }

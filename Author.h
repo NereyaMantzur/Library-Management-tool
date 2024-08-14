@@ -5,15 +5,23 @@
  struct BookManager;
  struct Book;
 
-typedef struct {
-    char* name;
-    struct Book* next;
-    struct Book* prev;
-} Author;
+ typedef struct BookNode
+ {
+	 char* bookName;
+	 struct BookNode* next;
+	 struct BookNode* prev;
+ }BookNode;
 
-Author* initAuthor();
-void printAuthor(Author* author);
-void freeAuthor(Author* author);
+ typedef struct {
+     char* name;
+     BookNode* head;
+ } Author;
+
+ Author* initAuthor();
+ int initBookNode();
+ void insert(Author* author, BookNode* bookNode);
+ void printAuthor(Author* author);
+ void freeAuthor(Author* author);
 
 #endif // !AUTHOR_H
 

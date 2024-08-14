@@ -63,7 +63,7 @@ int main()
 			handleError("Not valid Choice!");
 			break;
 		}
-		
+		refreshLibraryLoans(library->loanManager);
 		printf("\n");
 	} while (choice != 13);
 }
@@ -91,12 +91,12 @@ void PrintMenu()
 	printf("[3]  - Add New Loan\n");             //DONE
 	printf("[4]  - Remove Book\n");              //DONE
 	printf("[5]  - Remove Member\n");            //DONE
-	printf("[6]  - Return a Book\n");            //DONE NEED DEBUGGING
+	printf("[6]  - Return a Book\n");            //DONE
 	printf("[7]  - Sort books\n");               //DONE
 	printf("[8]  - Search a Book\n");            //DONE
 	printf("[9]  - Print All Available Books\n");//DONE
 	printf("[10] - Print All Members\n");        //DONE
-	printf("[11] - Print All Loaned Books\n");   //DONE NEED DEBUGGING
+	printf("[11] - Print All Loaned Books\n");   //DONE
 	printf("[12] - Print Popular Books\n");      
 	printf("[13] - Exit Program\n");
 	printf("Please enter your choice: ");

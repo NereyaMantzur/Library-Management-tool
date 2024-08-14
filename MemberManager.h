@@ -31,6 +31,7 @@ int printMemberArr(const Member* memberArr, int count);
 void printMember(const Member* member);
 void swapMembers(Member* memberA, Member* memberB);
 char* initPhoneNumber();
+//int freeMember(Member* member);
 char* initPhoneNumber();
 int isValidPhone(char* phone);
 

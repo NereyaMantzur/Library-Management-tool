@@ -33,6 +33,7 @@ Loan* initLoan()
 
 void addNewLoan(BookManager* bookManager, LoanManager* loanManager, MemberManager* memberManager)
 {
+	printf("\n========================================== Loan adding ==========================================\n\n");
 	if (!printMemberArr(memberManager->memberArr, memberManager->count))
 		return;	
 	printf("To which member add a new loan: (#number)\n");
@@ -40,7 +41,7 @@ void addNewLoan(BookManager* bookManager, LoanManager* loanManager, MemberManage
 	scanf("%d", &choice);
 	getchar();
 	Book* book = searchBook(bookManager);
-	if (book)
+	if (book && !isLoanedByMember(memberManager->memberArr[choice - 1].loanArr , book))
 		loanBook(bookManager, loanManager, book, &memberManager->memberArr[choice - 1]);
 }
 
@@ -65,6 +66,8 @@ int loanBook(BookManager* bookManager, LoanManager* loanManager, Book* book, Mem
 				bookManager->BookPtrArr[i]->copiesAvailable--;
 				addLoanToLoanArr(member, newLoan);
 				member->loanCount++;
+				printf("\n==================================== Book loaned succesfully! ===================================\n\n");
+
 				return 1;
 			}
 		}
@@ -75,6 +78,7 @@ int loanBook(BookManager* bookManager, LoanManager* loanManager, Book* book, Mem
 
 void returnBook(BookManager* bookManager, LoanManager* loanManager, MemberManager* memberManager)
 {
+	printf("\n========================================= Book returning ========================================\n\n");
 	int memberNumber;
 	int bookNumber;
 	printMemberArr(memberManager->memberArr , memberManager->count);
@@ -91,7 +95,7 @@ void returnBook(BookManager* bookManager, LoanManager* loanManager, MemberManage
 int removeLoanFromMember( LoanManager* loanManager,Book* book, Member* member)
 {
 	ListNode* head = loanManager->loanList.head->next;
-	while (!head)
+	while (head)
 	{
 		if (!strcmp(((Loan*)head->data)->book->name,book->name ))
 		{
@@ -101,14 +105,16 @@ int removeLoanFromMember( LoanManager* loanManager,Book* book, Member* member)
 				if (!strcmp(member->loanArr[i]->book->name,book->name))
 				{
 					member->loanCount--;
-					member->loanArr[i] = NULL;
+					//removeLoanFromLoanArr(member, (Loan*)head->data);
 					book->copiesAvailable++;
+					printf("\n======================================== Book returned! ========================================\n\n");
 					return 1;
 				}
 			}
 		}
 		head = head->next;
 	}
+	printf("\n====================================== Failed to return book ====================================\n\n");
 	return 0;
 }
 
@@ -126,23 +132,23 @@ int addLoanToLoanArr(Member* member, Loan* loan)
 	return 0;
 }
 
-int removeLoanFromLoanArr(Member* member, Loan* loan)
+
+int isLoanedByMember(Loan* loanArr[], Book* book)
 {
-	for (size_t i = 0; i < MAX_BOOKS; i++)
-	{
-		if (!strcmp(member->loanArr[i]->book->name, loan->book->name))
-		{
-			member->loanArr[i] = NULL;
+	for (int i = 0; i < MAX_BOOKS; i++) {
+		if (loanArr[i] && strcmp(loanArr[i]->book->name, book->name) == 0) {
+			handleError("Already loaned by this member");
 			return 1;
 		}
 	}
-	handleError("Maximum books allowed already reached!");
 	return 0;
 }
 
+
+
 void printLoan(Loan* loan)
 {
-	if (!loan)
+	if (!loan || !loan->book)
 		return;
 	switch (loan->status)
 	{
@@ -165,6 +171,11 @@ void printLoanList(LoanManager* manager)
 {
 	ListNode* head = manager->loanList.head->next;
 	int i = 1;
+	if (!head)
+	{
+		handleError("No loans yet!\n");
+		return;
+	}
 
 	printf("#  |Member name    |Book name      |Date of return |Status\n");
 	while (head)
@@ -178,11 +189,18 @@ void printLoanList(LoanManager* manager)
 
 void printLoanArrOfMember(MemberManager* manager, int memberNumber)
 {
+	if (manager->memberArr[memberNumber - 1].loanCount == 0)
+	{
+		printf("Member did not loaned books yet!\n");
+	}
 	printf("#  |Member name    |Book name      |Date of return |Status\n");
 	for (int i = 0; i < MAX_BOOKS; i++)
 	{
-		printf("%-2d |", i + 1);
-		printLoan(manager->memberArr[memberNumber - 1].loanArr[i]);
+		if (manager->memberArr[memberNumber - 1].loanArr[i])
+		{
+			printf("%-2d |", i + 1);
+			printLoan(manager->memberArr[memberNumber - 1].loanArr[i]);
+		}
 	}
 }
 

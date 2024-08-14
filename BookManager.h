@@ -2,7 +2,6 @@
 #define BOOKMANAGER_H
 
 
-#include "Publisher.h"
 #include "Author.h"
 #include "General.h"
 
@@ -18,7 +17,7 @@ typedef struct Book
 	Genre genre;
 	int copiesAvailable;
 	Author* author;
-	Publisher* publisher;
+	//Publisher* publisher;
 }Book;
 
 typedef struct BookManager

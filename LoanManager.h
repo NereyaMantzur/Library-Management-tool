@@ -30,7 +30,7 @@ void returnBook(BookManager* bookManager, LoanManager* loanManager, MemberManage
 void returnBook(BookManager* bookManager, LoanManager* loanManager, MemberManager* memberManager);
 int removeLoanFromMember(LoanManager* loanManager, Book* book, Member* member);
 int addLoanToLoanArr(Member* member, Loan* loan);
-int removeLoanFromLoanArr(Member* member, Loan* loan);
+int isLoanedByMember(Loan* loanArr[], Book* book);
 void printLoan(Loan* loan);
 void printLoanList(LoanManager* manager);
 void printLoanArrOfMember(MemberManager* manager, int memberNumber);

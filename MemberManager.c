@@ -52,7 +52,7 @@ int addNewMember(MemberManager* manager)
 	add->memberID = manager->nextID++;
 	manager->memberArr[manager->count] = *add;
 	manager->count++;
-	printf("\n==================================== Member added suuccesfully! =================================\n\n");
+	printf("\n==================================== Member added succesfully! ==================================\n\n");
 	return 1;
 }
 
@@ -75,7 +75,10 @@ int removeMember(MemberManager* manager)
 				return 0;
 			}
 			swapMembers(&manager->memberArr[i], &manager->memberArr[manager->count - 1]);
+			Member temp = manager->memberArr[manager->count - 1];
 			manager->count--;
+			manager->memberArr = (Member*)realloc(manager->memberArr, manager->count * sizeof(Member));
+			free(&temp);
 			printf("\n======================================== member removed! ========================================\n\n");
 			return 1;
 		}
