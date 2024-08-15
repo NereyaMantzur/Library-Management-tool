@@ -5,6 +5,7 @@
 #include <ctype.h>
 
 #include "MemberManager.h"
+#include "LoanManager.h"
 
 MemberManager* initMemberManager()
 {
@@ -58,31 +59,35 @@ int addNewMember(MemberManager* manager)
 
 int removeMember(MemberManager* manager)
 {
-	printf("\n========================================= member removing =======================================\n\n");
+	printf("\n========================================= Member removing =======================================\n\n");
 	printMemberArr(manager->memberArr, manager->count);
 	printf("Please enter ID of the member you want to remove: ");
+
 	int memberID;
 	scanf("%d", &memberID);
 	getchar();
+
 	for (int i = 0; i < manager->count; i++)
 	{
 		if (memberID == manager->memberArr[i].memberID)
 		{
 			if (manager->memberArr[i].loanCount > 0)
 			{
-				handleError("Member still have ACTIVE loans!");
-				printf("\n====================================== Failed to remove member ====================================\n\n");
+				handleError("Member still has ACTIVE loans!");
+				printf("\n===================================== Failed to remove member ===================================\n\n");
 				return 0;
 			}
+
 			swapMembers(&manager->memberArr[i], &manager->memberArr[manager->count - 1]);
-			Member temp = manager->memberArr[manager->count - 1];
+			freeMember(&manager->memberArr[manager->count - 1]);
+
 			manager->count--;
-			manager->memberArr = (Member*)realloc(manager->memberArr, manager->count * sizeof(Member));
-			free(&temp);
-			printf("\n======================================== member removed! ========================================\n\n");
+
+			printf("\n========================================= Member removed ========================================\n\n");
 			return 1;
 		}
 	}
+
 	printf("\n===================================== Failed to remove member ===================================\n\n");
 	return 0;
 }
@@ -101,13 +106,13 @@ int printMemberArr(const Member* memberArr, int count)
 	{
 		printf("%-2d |", i + 1);
 		printMember(&memberArr[i]);
-	}
-	return 1;
+	}	return 1;
 }
 
-void printMember(const Member* member)
+int printMember(const Member* member)
 {
 	printf("%-20d|%-20s|%s\n", member->memberID, member->name, member->phoneNumber);
+	return 1;
 }
 
 void swapMembers(Member* memberA, Member* memberB)
@@ -155,5 +160,18 @@ int isValidPhone(char* phone)
 		phone++;
 	}
 
+	return 1;
+}
+
+int freeMember(Member* member)
+{
+	freeLoanArr(member->loanArr);
+	free(member);
+	return 1;
+}
+
+int freeLoanArr(Loan* loanArr[]) 
+{
+	generalArrayFunction(loanArr, MAX_BOOKS, freeLoan);
 	return 1;
 }

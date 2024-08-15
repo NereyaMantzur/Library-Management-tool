@@ -136,7 +136,6 @@
     <ClCompile Include="LoanManager.c" />
     <ClCompile Include="Main.c" />
     <ClCompile Include="MemberManager.c" />
-    <ClCompile Include="Publisher.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Author.h" />
@@ -147,7 +146,6 @@
     <ClInclude Include="List.h" />
     <ClInclude Include="LoanManager.h" />
     <ClInclude Include="MemberManager.h" />
-    <ClInclude Include="Publisher.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

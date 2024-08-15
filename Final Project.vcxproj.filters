@@ -30,9 +30,6 @@
     <ClCompile Include="Author.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Publisher.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="LoanManager.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -66,9 +63,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MemberManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Publisher.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="General.h">

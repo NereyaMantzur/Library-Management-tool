@@ -14,7 +14,7 @@ Author* initAuthor()
 
 	printf("Please enter author name: ");
 	newAuthor->name = getStr();
-	newAuthor->head = NULL;
+	newAuthor->BookD_List = NULL;
 	return newAuthor;
 }
 
@@ -32,16 +32,16 @@ int initBookNode()
 
 void insert(Author* author, BookNode* bookNode)
 {
-	if (!author->head->next)
+	if (!author->BookD_List->next)
 	{
-		author->head->next = bookNode;
-		bookNode->prev = author->head;
+		author->BookD_List->next = bookNode;
+		bookNode->prev = author->BookD_List;
 		bookNode->next = NULL;
 		return;
 	}
-	BookNode* temp = author->head->next;
-	author->head->next = bookNode;
-	bookNode->prev = author->head;
+	BookNode* temp = author->BookD_List->next;
+	author->BookD_List->next = bookNode;
+	bookNode->prev = author->BookD_List;
 	bookNode->next = temp;
 	temp->prev = bookNode;
 }

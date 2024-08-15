@@ -25,15 +25,18 @@ typedef struct {
 //functions
 MemberManager* initMemberManager();
 Member* initMember();
+int initLoanArr(Loan* loan);
 int addNewMember(MemberManager* manager);
 int removeMember(MemberManager* manager);
 int printMemberArr(const Member* memberArr, int count);
-void printMember(const Member* member);
+int printMember(const Member* member);
 void swapMembers(Member* memberA, Member* memberB);
 char* initPhoneNumber();
-//int freeMember(Member* member);
+int freeMember(Member* member);
 char* initPhoneNumber();
 int isValidPhone(char* phone);
+int freeMember(Member* member);
+int freeLoanArr(Loan* loanArr[]);
 
 
 

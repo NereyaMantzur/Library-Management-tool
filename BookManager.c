@@ -96,11 +96,7 @@ int printBookArr(const Book** bookPtrArr, int count)
 	}
 
 	printf("#  |Book name           |Genre               |Author              |Available\n");
-	for (int i = 0; i < count; i++)
-	{
-		printf("%-2d |", i + 1);
-		printBook(bookPtrArr[i]);
-	}
+	generalArrayFunction(bookPtrArr, count, printBook);
 	return 1;
 }
 

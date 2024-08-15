@@ -57,6 +57,9 @@ int main()
 			printf("not implemented yet \n");
 			break;
 		case 13:
+			printf("not implemented yet \n");
+			break;
+		case 14:
 			printf("closing program!\n");
 			break;
 		default:
@@ -65,7 +68,7 @@ int main()
 		}
 		refreshLibraryLoans(library->loanManager);
 		printf("\n");
-	} while (choice != 13);
+	} while (choice != 14);
 }
 
 void headMessage()
@@ -97,7 +100,8 @@ void PrintMenu()
 	printf("[9]  - Print All Available Books\n");//DONE
 	printf("[10] - Print All Members\n");        //DONE
 	printf("[11] - Print All Loaned Books\n");   //DONE
-	printf("[12] - Print Popular Books\n");      
-	printf("[13] - Exit Program\n");
+	printf("[12] - Print Popular Books\n");
+	printf("[13] - Print books of a specific author\n");
+	printf("[14] - Exit Program\n");
 	printf("Please enter your choice: ");
 }

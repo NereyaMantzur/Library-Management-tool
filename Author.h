@@ -14,7 +14,7 @@
 
  typedef struct {
      char* name;
-     BookNode* head;
+     BookNode* BookD_List;
  } Author;
 
  Author* initAuthor();

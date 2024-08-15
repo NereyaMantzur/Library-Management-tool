@@ -35,6 +35,7 @@ void printLoan(Loan* loan);
 void printLoanList(LoanManager* manager);
 void printLoanArrOfMember(MemberManager* manager, int memberNumber);
 int isOverdue(Date* date);
+void freeLoan(Loan* loan);
 
 
 

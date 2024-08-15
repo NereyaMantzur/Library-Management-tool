@@ -27,3 +27,15 @@ char* getStr() {
 void handleError(const char* message) {
     fprintf(stderr, RED_TEXT "Error: %s\n" RESET_COLOR, message);
 }
+
+void generalArrayFunction(void** arr, int count, void (*func)(void* element))
+{
+	for (int i = 0; i < count; i++)
+	{
+		if (arr[i])
+		{
+			printf("%-2d |", i + 1);
+		}
+		func(arr[i]);
+	}
+}

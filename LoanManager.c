@@ -36,7 +36,7 @@ void addNewLoan(BookManager* bookManager, LoanManager* loanManager, MemberManage
 	printf("\n========================================== Loan adding ==========================================\n\n");
 	if (!printMemberArr(memberManager->memberArr, memberManager->count))
 		return;	
-	printf("To which member add a new loan: (#number)\n");
+	printf("To which member add a new loan (#number): ");
 	int choice;
 	scanf("%d", &choice);
 	getchar();
@@ -55,7 +55,6 @@ int loanBook(BookManager* bookManager, LoanManager* loanManager, Book* book, Mem
 	newLoan->book = book;
 	(Member*)newLoan->member = member;
 	newLoan->status = ACTIVE;
-	add30DaysToCurrentTime(&newLoan->dateOfReturn);
 	for (int i = 0; i < bookManager->count; i++)
 	{
 		if (!strcmp(book->name, bookManager->BookPtrArr[i]->name))
@@ -66,12 +65,14 @@ int loanBook(BookManager* bookManager, LoanManager* loanManager, Book* book, Mem
 				bookManager->BookPtrArr[i]->copiesAvailable--;
 				addLoanToLoanArr(member, newLoan);
 				member->loanCount++;
+				add30DaysToCurrentTime(&newLoan->dateOfReturn);
 				printf("\n==================================== Book loaned succesfully! ===================================\n\n");
 
 				return 1;
 			}
 		}
 	}
+	printf("\n======================================= No available books ======================================\n\n");
 	free(newLoan);
 	return 0;
 }
@@ -217,4 +218,13 @@ int isOverdue(Date* date)
 		return 1;
 	}
 	return 0;
+}
+
+void freeLoan(Loan* loan) 
+{
+	if (loan) 
+	{
+		free(&loan->dateOfReturn);
+		free(loan);
+	}
 }
