@@ -170,8 +170,3 @@ int freeMember(Member* member)
 	return 1;
 }
 
-int freeLoanArr(Loan* loanArr[]) 
-{
-	generalArrayFunction(loanArr, MAX_BOOKS, freeLoan);
-	return 1;
-}

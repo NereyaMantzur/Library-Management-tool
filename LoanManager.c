@@ -145,7 +145,20 @@ int isLoanedByMember(Loan* loanArr[], Book* book)
 	return 0;
 }
 
-
+int isInLoanList(LoanManager* loanManager,char* bookName)
+{
+	ListNode* head = loanManager->loanList.head->next;
+	while (head)
+	{
+		Loan* loan = (Loan*)head->data;
+		if (!strcmp(loan->book->name,bookName))
+		{
+			return 1;
+		}
+		head = head->next;
+	}
+	return 0;
+}
 
 void printLoan(Loan* loan)
 {
@@ -227,4 +240,10 @@ void freeLoan(Loan* loan)
 		free(&loan->dateOfReturn);
 		free(loan);
 	}
+}
+
+int freeLoanArr(Loan* loanArr[])
+{
+	generalArrayFunction(loanArr, MAX_BOOKS, freeLoan);
+	return 1;
 }

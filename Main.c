@@ -29,7 +29,7 @@ int main()
 			addNewLoan(library->bookManager, library->loanManager, library->memberManager);
 			break;
 		case 4:
-			removeBook(library->bookManager);
+			removeBook(library->bookManager ,library->loanManager);
 			break;
 		case 5:
 			removeMember(library->memberManager);

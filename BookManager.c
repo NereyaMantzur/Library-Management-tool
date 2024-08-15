@@ -5,6 +5,7 @@
 #include <ctype.h>
 
 #include "BookManager.h"
+#include "LoanManager.h"
 
 
 BookManager* initBookManager( )
@@ -63,22 +64,26 @@ int addNewBook(BookManager* manager)
 	return 1;
 }
 
-// what about the book that loand!!!
-int removeBook(BookManager* manager)
+int removeBook(BookManager* bookManager , LoanManager* loanManager)
 {
 	printf("\n========================================== Book removing ========================================\n\n");
-	if (!printBookArr(manager->BookPtrArr, manager->count))
+	if (!printBookArr(bookManager->BookPtrArr, bookManager->count))
 		return 0;
 	printf("Please enter name of the book you want to remove: ");
 	char* bookName = getStr();
-	for (int i = 0; i < manager->count; i++)
+	for (int i = 0; i < bookManager->count; i++)
 	{
-		if (strcmp(bookName,manager->BookPtrArr[i]->name) == 0)
+		if (isInLoanList(loanManager,bookName))
 		{
-			swap(manager->BookPtrArr[i], manager->BookPtrArr[manager->count - 1]);
-			freeBook(manager->BookPtrArr[manager->count - 1]);
-			manager->count--;
-			manager->BookPtrArr = (Book**)realloc(manager->BookPtrArr, manager->count * sizeof(Book*));
+			handleError("Book is loaned by one of the members");
+			return 0;
+		}
+		if (strcmp(bookName,bookManager->BookPtrArr[i]->name) == 0)
+		{
+			swap(bookManager->BookPtrArr[i], bookManager->BookPtrArr[bookManager->count - 1]);
+			freeBook(bookManager->BookPtrArr[bookManager->count - 1]);
+			bookManager->count--;
+			bookManager->BookPtrArr = (Book**)realloc(bookManager->BookPtrArr, bookManager->count * sizeof(Book*));
 			printf("\n========================================= Book removed! =========================================\n\n");
 			return 1;
 		}
@@ -91,7 +96,7 @@ int printBookArr(const Book** bookPtrArr, int count)
 {
 	if (count == 0)
 	{
-		handleError("No books in the system!\n");
+		handleError("No books in the system!");
 		return 0;
 	}
 

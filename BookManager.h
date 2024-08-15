@@ -4,8 +4,11 @@
 
 #include "Author.h"
 #include "General.h"
+//#include "LoanManager.h"
 
-
+// Forward declaration
+typedef struct Loan Loan;
+typedef struct LoanManager LoanManager;
 typedef enum Genre
 {
 SCIENCE_FICTION,MYSTERY,FANTASY,ROMANCE,HISTORICAL_FICTION
@@ -31,7 +34,7 @@ typedef struct BookManager
 BookManager* initBookManager();
 Book* initBook();
 int addNewBook(BookManager* manager);
-int removeBook(BookManager* manager);
+int removeBook(BookManager* manager, LoanManager* loanManager);
 int printBookArr(const Book** bookPtrArr, int count);
 void printBook(const Book*);
 int freeBook(Book* book);

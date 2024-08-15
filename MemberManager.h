@@ -5,8 +5,6 @@
 
 #define MAX_BOOKS 5
 
-// Forward declaration
-typedef struct Loan Loan;
 
 typedef struct {
     char* name;
@@ -25,7 +23,6 @@ typedef struct {
 //functions
 MemberManager* initMemberManager();
 Member* initMember();
-int initLoanArr(Loan* loan);
 int addNewMember(MemberManager* manager);
 int removeMember(MemberManager* manager);
 int printMemberArr(const Member* memberArr, int count);
@@ -36,7 +33,6 @@ int freeMember(Member* member);
 char* initPhoneNumber();
 int isValidPhone(char* phone);
 int freeMember(Member* member);
-int freeLoanArr(Loan* loanArr[]);
 
 
 
