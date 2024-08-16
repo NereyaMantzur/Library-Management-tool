@@ -247,3 +247,27 @@ int freeLoanArr(Loan* loanArr[])
 	generalArrayFunction(loanArr, MAX_BOOKS, freeLoan);
 	return 1;
 }
+
+int writeLoanManagerToText(char* fName, int count, LoanManager* manager)
+{
+	return 1;
+
+}
+
+List* readLoanManagerFromText(char* fName, LoanManager* manager)
+{
+	return NULL;
+
+}
+
+int writeLoanManagerToBinary(char* fName, int count, LoanManager* manager)
+{
+	return 1;
+
+}
+
+List* readLoanManagerFromBinary(char* fName, LoanManager* manager)
+{
+	return NULL;
+
+}

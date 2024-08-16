@@ -31,7 +31,7 @@ Member* initMember()
 	printf("Please enter Member name: ");
 	newMember->name = getStr();
 	printf("Please enter phone numer [10 digits]: ");
-	newMember->phoneNumber = initPhoneNumber();
+	strcpy(newMember->phoneNumber , initPhoneNumber());
 	newMember->loanCount = 0;
 	for (size_t i = 0; i < MAX_BOOKS; i++)
 	{
@@ -170,3 +170,24 @@ int freeMember(Member* member)
 	return 1;
 }
 
+int writeMemberManagerToText(char* fName, int count, MemberManager* manager)
+{
+	return 1;
+}
+
+Member* readMemberManagerFromText(char* fName, MemberManager* manager)
+{
+	return NULL;
+}
+
+int writeMemberManagerToBinary(char* fName, int count, MemberManager* manager)
+{
+	return 1;
+
+}
+
+Member* readMemberManagerFromBinary(char* fName, MemberManager* manager)
+{
+	return NULL;
+
+}

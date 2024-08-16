@@ -47,4 +47,8 @@ int compareBookByName(const void* a, const void* b);
 int compareBookByGenre(const void* a, const void* b);
 int compareBookByAuthor(const void* a, const void* b);
 
+int writeBookManagerToText(char* fName, int count, BookManager* manager);
+Book** readBookManagerFromText(char* fName, BookManager* manager);
+int writeBookManagerToBinary(char* fName, int count, BookManager* manager);
+Book** readBookManagerFromBinary(char* fName, BookManager* manager);
 #endif // !BOOKMANAGER_H

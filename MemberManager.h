@@ -9,7 +9,7 @@
 typedef struct {
     char* name;
     int memberID;
-    char* phoneNumber;
+    char phoneNumber[11];
     struct Loan* loanArr[MAX_BOOKS];
     int loanCount;
 } Member;
@@ -33,7 +33,10 @@ int freeMember(Member* member);
 char* initPhoneNumber();
 int isValidPhone(char* phone);
 int freeMember(Member* member);
-
+int writeMemberManagerToText(char* fName, int count, MemberManager* manager);
+Member* readMemberManagerFromText(char* fName, MemberManager* manager);
+int writeMemberManagerToBinary(char* fName, int count, MemberManager* manager);
+Member* readMemberManagerFromBinary(char* fName, MemberManager* manager);
 
 
 #endif // !MEMBER_H

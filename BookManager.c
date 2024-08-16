@@ -206,9 +206,32 @@ int compareBookByAuthor(const void* a, const void* b) {
 	return strcmp(bookA->author->name, bookB->author->name);
 }
 
-
 int freeBook(Book* book)
 {
 	free(book);
 	return 1;
+}
+
+int writeBookManagerToText(char* fName, int count, BookManager* manager)
+{
+	return 1;
+
+}
+
+Book** readBookManagerFromText(char* fName, BookManager* manager)
+{
+	return NULL;
+
+}
+
+int writeBookManagerToBinary(char* fName, int count, BookManager* manager)
+{
+	return 1;
+
+}
+
+Book** readBookManagerFromBinary(char* fName, BookManager* manager)
+{
+	return NULL;
+
 }

@@ -37,6 +37,10 @@ void printLoanArrOfMember(MemberManager* manager, int memberNumber);
 int isOverdue(Date* date);
 void freeLoan(Loan* loan);
 int freeLoanArr(Loan* loanArr[]);
+int writeLoanManagerToText(char* fName, int count, LoanManager* manager);
+List* readLoanManagerFromText(char* fName, LoanManager* manager);
+int writeLoanManagerToBinary(char* fName, int count, LoanManager* manager);
+List* readLoanManagerFromBinary(char* fName, LoanManager* manager);
 
 
 
