@@ -14,30 +14,29 @@ typedef enum Genre
 SCIENCE_FICTION,MYSTERY,FANTASY,ROMANCE,HISTORICAL_FICTION
 }Genre;
 
-typedef struct Book
+struct Book
 {
 	char* name;
 	Genre genre;
 	int copiesAvailable;
 	Author* author;
-	//Publisher* publisher;
-}Book;
+};
 
-typedef struct BookManager
+struct BookManager
 {
 	Book** BookPtrArr;
 	int count;
-}BookManager;
+};
 
 //functions
 
 BookManager* initBookManager();
-Book* initBook();
+Book* initBook(BookManager* manager);
 int addNewBook(BookManager* manager);
 int removeBook(BookManager* manager, LoanManager* loanManager);
 int printBookArr(const Book** bookPtrArr, int count);
 void printBook(const Book*);
-int freeBook(Book* book);
+int freeBook(Book* title);
 
 
 void swap(Book* bookA, Book* bookB);

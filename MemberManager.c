@@ -80,9 +80,12 @@ int removeMember(MemberManager* manager)
 
 			swapMembers(&manager->memberArr[i], &manager->memberArr[manager->count - 1]);
 			freeMember(&manager->memberArr[manager->count - 1]);
-
 			manager->count--;
-
+			manager->memberArr = (Member*)realloc(manager->memberArr, sizeof(Member) * (manager->count));
+			if (!manager->memberArr)
+			{
+				break;
+			}
 			printf("\n========================================= Member removed ========================================\n\n");
 			return 1;
 		}
@@ -166,7 +169,7 @@ int isValidPhone(char* phone)
 int freeMember(Member* member)
 {
 	freeLoanArr(member->loanArr);
-	free(member);
+	member = NULL;
 	return 1;
 }
 

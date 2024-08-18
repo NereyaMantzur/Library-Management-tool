@@ -20,7 +20,7 @@ BookManager* initBookManager( )
 	return manager;
 }
 
-Book* initBook()
+Book* initBook(BookManager* manager)
 {
 	Book* newBook = (Book*)malloc(sizeof(Book));
 	if (!newBook)
@@ -35,9 +35,16 @@ Book* initBook()
 	printf("Please enter number of copies: ");
 	scanf_s("%d", &newBook->copiesAvailable);
 	getchar();
-	newBook->author = initAuthor();
-	
+	newBook->author = initAuthor(manager);
+	insert(newBook->author, initAuthorBook(newBook));
+
 	return newBook;
+}
+
+int freeBook(Book* title)
+{
+	free(title);
+	return 1;
 }
 
 int addNewBook(BookManager* manager)
@@ -49,7 +56,7 @@ int addNewBook(BookManager* manager)
 	{
 		return 0;
 	}
-	Book* add = initBook();
+	Book* add = initBook(manager);
 	for (size_t i = 0; i < manager->count; i++)
 	{
 		if (compareBookByName(&add, &manager->BookPtrArr[i]) == 0)
@@ -64,7 +71,7 @@ int addNewBook(BookManager* manager)
 	return 1;
 }
 
-int removeBook(BookManager* bookManager , LoanManager* loanManager)
+int removeBook(BookManager* bookManager, LoanManager* loanManager)
 {
 	printf("\n========================================== Book removing ========================================\n\n");
 	if (!printBookArr(bookManager->BookPtrArr, bookManager->count))
@@ -73,12 +80,12 @@ int removeBook(BookManager* bookManager , LoanManager* loanManager)
 	char* bookName = getStr();
 	for (int i = 0; i < bookManager->count; i++)
 	{
-		if (isInLoanList(loanManager,bookName))
+		if (isInLoanList(loanManager, bookName))
 		{
 			handleError("Book is loaned by one of the members");
 			return 0;
 		}
-		if (strcmp(bookName,bookManager->BookPtrArr[i]->name) == 0)
+		if (strcmp(bookName, bookManager->BookPtrArr[i]->name) == 0)
 		{
 			swap(bookManager->BookPtrArr[i], bookManager->BookPtrArr[bookManager->count - 1]);
 			freeBook(bookManager->BookPtrArr[bookManager->count - 1]);
@@ -105,13 +112,13 @@ int printBookArr(const Book** bookPtrArr, int count)
 	return 1;
 }
 
-void printBook(const Book* book)
+void printBook(const Book* title)
 {
-	if (!book)
+	if (!title)
 	{
 		return;
 	}
-	printf("%-20s|%-20d|%-20s|%d\n", book->name , book->genre , book->author->name,book->copiesAvailable );
+	printf("%-20s|%-20d|%-20s|%d\n", title->name, title->genre, title->author->name, title->copiesAvailable);
 }
 
 void swap(Book* bookA, Book* bookB) {
@@ -142,12 +149,12 @@ void sortBooks(BookManager* manager) {
 		handleError("Invalid choice!");
 		break;
 	}
-		printBookArr(manager->BookPtrArr, manager->count);
+	printBookArr(manager->BookPtrArr, manager->count);
 }
 
 Book* searchBook(BookManager* manager)
 {
-	Book* temp  = (Book*)malloc(sizeof(Book));
+	Book* temp = (Book*)malloc(sizeof(Book));
 	int choice;
 	Book** res = NULL;
 	printf("\n[1] - search book by name\n");
@@ -159,8 +166,8 @@ Book* searchBook(BookManager* manager)
 	switch (choice) {
 	case 1:
 		printf("Please enter the name of the book: ");
-		temp->name =getStr();
-		res = (Book**)bsearch(&temp,manager->BookPtrArr,manager->count,sizeof(Book*),compareBookByName);
+		temp->name = getStr();
+		res = (Book**)bsearch(&temp, manager->BookPtrArr, manager->count, sizeof(Book*), compareBookByName);
 		break;
 	case 2:
 		printf("Please enter the genre of the book: ");
@@ -170,7 +177,7 @@ Book* searchBook(BookManager* manager)
 		break;
 	case 3:
 		printf("Please enter the author of the book: ");
-		strcpy(temp->author->name ,getStr());
+		strcpy(temp->author->name, getStr());
 		res = (Book**)bsearch(&temp, manager->BookPtrArr, manager->count, sizeof(Book*), compareBookByAuthor);
 		break;
 	default:
@@ -200,16 +207,11 @@ int compareBookByGenre(const void* a, const void* b) {
 	return bookA->genre - bookB->genre;
 }
 
-int compareBookByAuthor(const void* a, const void* b) {
+int compareBookByAuthor(const void* a, const void* b) 
+{
 	Book* bookA = *(Book**)a;
 	Book* bookB = *(Book**)b;
 	return strcmp(bookA->author->name, bookB->author->name);
-}
-
-int freeBook(Book* book)
-{
-	free(book);
-	return 1;
 }
 
 int writeBookManagerToText(char* fName, int count, BookManager* manager)

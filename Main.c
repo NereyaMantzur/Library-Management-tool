@@ -48,9 +48,11 @@ int main()
 			printBookArr(library->bookManager->BookPtrArr, library->bookManager->count);
 			break;
 		case 10:
+			printf("\n=========================================== Members list ========================================\n\n");
 			printMemberArr(library->memberManager->memberArr,library->memberManager->count);
 			break;
 		case 11:
+			printf("\n========================================== active loan list =====================================\n\n");
 			printLoanList(library->loanManager);
 			break;
 		case 12:

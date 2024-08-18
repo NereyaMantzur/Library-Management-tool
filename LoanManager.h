@@ -11,7 +11,7 @@ typedef enum {
 } Status;
 
 struct Loan{
-    Book* book;
+    Book* title;
     Member* member;
     Date dateOfReturn;
     Status status;
@@ -25,12 +25,12 @@ struct LoanManager {
 LoanManager* initLoanManager();
 Loan* initLoan();
 void addNewLoan(BookManager* bookManager, LoanManager* loanManager, MemberManager* memberManager);
-int loanBook(BookManager* bookManager, LoanManager* loanManager, Book* book, Member* member);
+int loanBook(BookManager* bookManager, LoanManager* loanManager, Book* title, Member* member);
 void returnBook(BookManager* bookManager, LoanManager* loanManager, MemberManager* memberManager);
 int isInLoanList(LoanManager* loanManager, char* bookName);
-int removeLoanFromMember(LoanManager* loanManager, Book* book, Member* member);
+int removeLoanFromMember(LoanManager* loanManager, Book* title, Member* member);
 int addLoanToLoanArr(Member* member, Loan* loan);
-int isLoanedByMember(Loan* loanArr[], Book* book);
+int isLoanedByMember(Loan* loanArr[], Book* title);
 void printLoan(Loan* loan);
 void printLoanList(LoanManager* manager);
 void printLoanArrOfMember(MemberManager* manager, int memberNumber);

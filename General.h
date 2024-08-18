@@ -8,7 +8,7 @@
 
 char* getStr();
 void handleError(const char* message);
-void generalArrayFunction(void* arr[], int count, void (*func)(void* element));
+void generalArrayFunction(void** arr, int count, void (*func)(void* element));
 
 #endif // !GENERAL_H
 
