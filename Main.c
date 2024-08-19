@@ -4,15 +4,19 @@
 #include <conio.h>
 #include "General.h"
 
+#define LIBRARY_TEXT "libraryText.txt"
+#define LIBRARY_BIN "libraryBin.bin"
 
 void headMessage();
 void PrintMenu();
+void loadFile(const char* textFile, const char* binFile, Library* library);
 
 //program starts here
 int main()
 {
 	Library* library = initLibrary();
 	headMessage();
+	loadFile(LIBRARY_TEXT ,LIBRARY_BIN ,library);
 	int choice;
 	do {
 		PrintMenu();
@@ -71,6 +75,7 @@ int main()
 		refreshLibraryLoans(library->loanManager);
 		printf("\n");
 	} while (choice != 14);
+	writeLibraryToTextFile(LIBRARY_TEXT, library);
 }
 
 void headMessage()
@@ -106,4 +111,31 @@ void PrintMenu()
 	printf("[13] - Print books of a specific author\n");
 	printf("[14] - Exit Program\n");
 	printf("Please enter your choice: ");
+}
+
+void loadFile(const char* textFile,const char* binFile ,Library* library)
+{
+	int choice;
+	do
+	{
+		printf("=========================================== Load menu ===========================================\n\n");
+		printf("[1]  - Load system from a file\n");
+		printf("[2]  - Exit\n");
+		printf("Please enter your choice: ");
+		scanf_s("%d", &choice);
+		getchar();
+		printf("=================================================================================================\n\n");
+		switch (choice)
+		{
+		case 1:
+			loadLibraryFromFile(textFile, binFile, library);
+			break;
+		case 2:
+			return;
+		default:
+			handleError("Not valid choice! Try again!\n\n");
+			break;
+		}
+
+	} while (1 && choice == 2);
 }

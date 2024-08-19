@@ -214,26 +214,35 @@ int compareBookByAuthor(const void* a, const void* b)
 	return strcmp(bookA->author->name, bookB->author->name);
 }
 
-int writeBookManagerToText(char* fName, int count, BookManager* manager)
+int writeBookManagerToText(FILE* file, BookManager* manager) {
+	fprintf(file, "%d\n",manager->count);
+
+	for (size_t i = 0; i < manager->count; i++) {
+		fprintf(file, "Book Name: %s\n", manager->BookPtrArr[i]->name);
+		fprintf(file, "Author Name: %s\n", manager->BookPtrArr[i]->author->name);
+		fputs("\n", file);
+	}
+
+	fclose(file);
+	return 1;
+}
+
+
+int readBookManagerFromText(const char* fName, BookManager* manager)
 {
 	return 1;
 
 }
 
-Book** readBookManagerFromText(char* fName, BookManager* manager)
-{
-	return NULL;
-
-}
-
-int writeBookManagerToBinary(char* fName, int count, BookManager* manager)
+int writeBookManagerToBinary(char* fName, BookManager* manager)
 {
 	return 1;
 
+
 }
 
-Book** readBookManagerFromBinary(char* fName, BookManager* manager)
+int readBookManagerFromBinary(char* fName, BookManager* manager)
 {
-	return NULL;
+	return 1;
 
 }

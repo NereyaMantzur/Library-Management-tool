@@ -248,26 +248,32 @@ int freeLoanArr(Loan* loanArr[])
 	return 1;
 }
 
-int writeLoanManagerToText(char* fName, int count, LoanManager* manager)
+int writeLoanManagerToText(FILE* file, LoanManager * manager)
 {
 	return 1;
 
 }
 
-List* readLoanManagerFromText(char* fName, LoanManager* manager)
-{
-	return NULL;
-
-}
-
-int writeLoanManagerToBinary(char* fName, int count, LoanManager* manager)
+int readLoanManagerFromText(const char* fName, LoanManager * manager)
 {
 	return 1;
 
 }
 
-List* readLoanManagerFromBinary(char* fName, LoanManager* manager)
+int writeLoanManagerToBinary(char* fName, LoanManager * manager)
 {
-	return NULL;
+	int count = 0;
+	ListNode* head = manager->loanList.head->next;
+	while (!head)
+	{
+		count++;
+		head = head->next;
+	}
+	return 1;
 
+}
+
+int readLoanManagerFromBinary(char* fName, LoanManager * manager)
+{
+	return 1;
 }

@@ -1,5 +1,6 @@
 #ifndef MEMBER_H
 #define MEMBER_H
+#include <stdio.h>
 
 #include "General.h"
 
@@ -33,10 +34,12 @@ int freeMember(Member* member);
 char* initPhoneNumber();
 int isValidPhone(char* phone);
 int freeMember(Member* member);
-int writeMemberManagerToText(char* fName, int count, MemberManager* manager);
-Member* readMemberManagerFromText(char* fName, MemberManager* manager);
-int writeMemberManagerToBinary(char* fName, int count, MemberManager* manager);
-Member* readMemberManagerFromBinary(char* fName, MemberManager* manager);
+
+int writeMemberManagerToText(FILE* file, MemberManager* manager);
+int readMemberManagerFromText(const char* fName, MemberManager* manager);
+
+int writeMemberManagerToBinary(char* fName, MemberManager* manager);
+int readMemberManagerFromBinary(char* fName, MemberManager* manager);
 
 
 #endif // !MEMBER_H

@@ -173,24 +173,25 @@ int freeMember(Member* member)
 	return 1;
 }
 
-int writeMemberManagerToText(char* fName, int count, MemberManager* manager)
+int writeMemberManagerToText(FILE* file, MemberManager* manager)
 {
 	return 1;
 }
 
-Member* readMemberManagerFromText(char* fName, MemberManager* manager)
-{
-	return NULL;
-}
-
-int writeMemberManagerToBinary(char* fName, int count, MemberManager* manager)
+int readMemberManagerFromText(const char* fName, MemberManager* manager)
 {
 	return 1;
 
 }
 
-Member* readMemberManagerFromBinary(char* fName, MemberManager* manager)
+int writeMemberManagerToBinary(char* fName, MemberManager* manager)
 {
-	return NULL;
+	return 1;
+
+}
+
+int readMemberManagerFromBinary(char* fName, MemberManager* manager)
+{
+	return 1;
 
 }

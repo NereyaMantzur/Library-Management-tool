@@ -1,10 +1,12 @@
 #ifndef LOAN_H
 #define LOAN_H
+#include <stdio.h>
 
 #include "MemberManager.h"
 #include "BookManager.h"
 #include "Date.h"
 #include "List.h"
+
 
 typedef enum {
    OVERDUE,ACTIVE
@@ -37,10 +39,12 @@ void printLoanArrOfMember(MemberManager* manager, int memberNumber);
 int isOverdue(Date* date);
 void freeLoan(Loan* loan);
 int freeLoanArr(Loan* loanArr[]);
-int writeLoanManagerToText(char* fName, int count, LoanManager* manager);
-List* readLoanManagerFromText(char* fName, LoanManager* manager);
-int writeLoanManagerToBinary(char* fName, int count, LoanManager* manager);
-List* readLoanManagerFromBinary(char* fName, LoanManager* manager);
+
+int writeLoanManagerToText(FILE* file, LoanManager* manager);
+int readLoanManagerFromText(const char* fName, LoanManager* manager);
+
+int writeLoanManagerToBinary(char* fName, LoanManager* manager);
+int readLoanManagerFromBinary(char* fName, LoanManager* manager);
 
 
 
