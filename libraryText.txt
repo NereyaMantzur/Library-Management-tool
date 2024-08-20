@@ -1,4 +1,11 @@
 1
-Book Name: Harry potter
-Author Name: 1
+Book name           |Genre               |Author              |Available
+1                    1                    1                    0
 
+1
+Member ID           |Member name         |Member phone number
+1                    1                    1111111111
+
+1
+Member name    |Book name      |Date of return |Status
+1               1               20/ 9/2024      ACTIVE

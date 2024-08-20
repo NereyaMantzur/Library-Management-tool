@@ -84,6 +84,7 @@ int writeLibraryToTextFile(const char* textFile, Library* library)
 	if (!books || !loans || !loans)
 	{
 		handleError("Problem occured during system writing the system\n");
+		fclose(file);
 		return 0;
 	}
 	return 1;

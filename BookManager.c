@@ -215,15 +215,14 @@ int compareBookByAuthor(const void* a, const void* b)
 }
 
 int writeBookManagerToText(FILE* file, BookManager* manager) {
+	Book** arr = manager->BookPtrArr;
 	fprintf(file, "%d\n",manager->count);
-
+	fprintf(file,"Book name           |Genre               |Author              |Available\n");
 	for (size_t i = 0; i < manager->count; i++) {
-		fprintf(file, "Book Name: %s\n", manager->BookPtrArr[i]->name);
-		fprintf(file, "Author Name: %s\n", manager->BookPtrArr[i]->author->name);
+		fprintf(file, "%-20s %-20d %-20s %d\n", arr[i]->name, arr[i]->genre, arr[i]->author->name, arr[i]->copiesAvailable);
 		fputs("\n", file);
 	}
 
-	fclose(file);
 	return 1;
 }
 

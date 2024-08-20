@@ -175,6 +175,14 @@ int freeMember(Member* member)
 
 int writeMemberManagerToText(FILE* file, MemberManager* manager)
 {
+	Member* arr = manager->memberArr;
+	fprintf(file, "%d\n", manager->count);
+	fprintf(file, "Member ID           |Member name         |Member phone number\n");
+	for (size_t i = 0; i < manager->count; i++) {
+		fprintf(file, "%-20d %-20s %s\n", arr->memberID, arr->name, arr->phoneNumber);
+		fputs("\n", file);
+	}
+
 	return 1;
 }
 

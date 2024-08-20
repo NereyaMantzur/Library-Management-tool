@@ -250,8 +250,38 @@ int freeLoanArr(Loan* loanArr[])
 
 int writeLoanManagerToText(FILE* file, LoanManager * manager)
 {
+	int count = 0;
+	ListNode* head = manager->loanList.head->next;
+	while (head)
+	{
+		count++;
+		head = head->next;
+	}
+	head = manager->loanList.head->next;
+	fprintf(file, "%d\n", count);
+	fprintf(file, "Member name    |Book name      |Date of return |Status\n");
+	Loan* loan;
+	while (head)
+	{
+		loan = (Loan*)head->data;
+		switch (loan->status)
+		{
+		case OVERDUE:
+			fprintf(file,"%-15s %-15s ", loan->member->name, loan->title->name);
+			fprintf(file,"%2d/%2d/%4d", loan->dateOfReturn.day, loan->dateOfReturn.month, loan->dateOfReturn.year);
+			fprintf(file,"      OVERDUE\n");
+			break;
+		case ACTIVE:
+			fprintf(file,"%-15s %-15s ", loan->member->name, loan->title->name);
+			fprintf(file, "%2d/%2d/%4d", loan->dateOfReturn.day, loan->dateOfReturn.month, loan->dateOfReturn.year);
+			fprintf(file,"      ACTIVE\n");
+			break;
+		default:
+			break;
+		}
+		head = head->next;
+	}
 	return 1;
-
 }
 
 int readLoanManagerFromText(const char* fName, LoanManager * manager)
