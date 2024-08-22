@@ -214,6 +214,17 @@ int compareBookByAuthor(const void* a, const void* b)
 	return strcmp(bookA->author->name, bookB->author->name);
 }
 
+Book* getBookByTitle(BookManager* manager, char* bookTitle)
+{
+	for (int i = 0; i < manager->count; i++)
+	{
+		if (!strcmp(manager->BookPtrArr[i]->name, bookTitle))
+		{
+			return manager->BookPtrArr[i];
+		}
+	}return NULL;
+}
+
 int writeBookManagerToText(FILE* file, BookManager* manager) {
 	Book** arr = manager->BookPtrArr;
 	fprintf(file, "%d\n",manager->count);
@@ -226,22 +237,68 @@ int writeBookManagerToText(FILE* file, BookManager* manager) {
 	return 1;
 }
 
+int readBookManagerFromText(FILE* file, BookManager* manager) {
+	int count = 0;
+	fscanf(file, "%d", &count);
+	manager->BookPtrArr = (Book**)malloc(count * sizeof(Book*));
 
-int readBookManagerFromText(const char* fName, BookManager* manager)
-{
+	if (!manager->BookPtrArr) {
+		return 0;
+	}
+
+	manager->count = count; 
+
+	char buffer[256];
+	fgets(buffer, sizeof(buffer), file); 
+	fgets(buffer, sizeof(buffer), file); 
+
+	for (size_t i = 0; i < count; i++) {
+		Book* temp = (Book*)malloc(sizeof(Book));
+		if (!temp) {
+			return 0; 
+		}
+
+		temp->author = (Author*)malloc(sizeof(Author));
+		if (!temp->author) {
+			free(temp); 
+			return 0;
+		}
+		temp->author->headBook = NULL;
+
+		char name[256];
+		char authorName[256];
+		int genre, copies;
+
+		fscanf(file, "%s %d %s %d", name, &genre, authorName, &copies);
+
+		temp->name = (char*)malloc(strlen(name) + 1);
+		if (temp->name) {
+			strcpy(temp->name, name); 
+		}
+
+		temp->author->name = (char*)malloc(strlen(authorName) + 1);
+		if (temp->author->name) {
+			strcpy(temp->author->name, authorName);
+		}
+
+		temp->genre = genre;
+		temp->copiesAvailable = copies;
+
+		insert(temp->author, initAuthorBook(temp));
+		manager->BookPtrArr[i] = temp;
+	}
 	return 1;
-
 }
+
+
 
 int writeBookManagerToBinary(char* fName, BookManager* manager)
 {
 	return 1;
-
-
 }
+
 
 int readBookManagerFromBinary(char* fName, BookManager* manager)
 {
 	return 1;
-
 }

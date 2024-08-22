@@ -8,4 +8,4 @@ Member ID           |Member name         |Member phone number
 
 1
 Member name    |Book name      |Date of return |Status
-1               1               20/ 9/2024      ACTIVE
+1               1               20 9 2024      ACTIVE

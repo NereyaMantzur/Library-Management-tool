@@ -35,11 +35,13 @@ char* initPhoneNumber();
 int isValidPhone(char* phone);
 int freeMember(Member* member);
 
-int writeMemberManagerToText(FILE* file, MemberManager* manager);
-int readMemberManagerFromText(const char* fName, MemberManager* manager);
+Member* getMemberByID(MemberManager* memberManager ,int ID);
 
-int writeMemberManagerToBinary(char* fName, MemberManager* manager);
-int readMemberManagerFromBinary(char* fName, MemberManager* manager);
+int writeMemberManagerToText(FILE* file, MemberManager* manager);
+int readMemberManagerFromText(FILE* file, MemberManager* manager);
+
+int writeMemberManagerToBinary(FILE* file, MemberManager* manager);
+int readMemberManagerFromBinary(FILE* file, MemberManager* manager);
 
 
 #endif // !MEMBER_H

@@ -173,6 +173,18 @@ int freeMember(Member* member)
 	return 1;
 }
 
+Member* getMemberByID(MemberManager* memberManager, int ID)
+{
+	for (int i = 0; i < memberManager->count; i++)
+	{
+		if (memberManager->memberArr[i].memberID == ID)
+		{
+			return &memberManager->memberArr[i];
+		}
+	}
+	return NULL;
+}
+
 int writeMemberManagerToText(FILE* file, MemberManager* manager)
 {
 	Member* arr = manager->memberArr;
@@ -186,19 +198,52 @@ int writeMemberManagerToText(FILE* file, MemberManager* manager)
 	return 1;
 }
 
-int readMemberManagerFromText(const char* fName, MemberManager* manager)
+int readMemberManagerFromText(FILE* file, MemberManager* manager)
+{
+	int count;
+	fscanf(file, "%d", &count);
+	manager->memberArr = (Member*)malloc(count * sizeof(Member));
+	if (!manager->memberArr)
+	{
+		return 0;
+	}
+
+	manager->count = count;
+	manager->nextID = count + 1;
+
+	char buffer[256];
+	fgets(buffer, sizeof(buffer), file);
+	fgets(buffer, sizeof(buffer), file);
+
+	for (size_t i = 0; i < count; i++)
+	{
+		Member* temp = (Member*)malloc(sizeof(Member));
+		if (!temp)
+		{
+			return 0;
+		}
+		char name[256], phone[11];
+		fscanf(file, "%d%s%s",&temp->memberID,&name,&phone);
+
+		temp->name = (char*)malloc(strlen(name) + 1);
+		if (temp->name) {
+			strcpy(temp->name, name);
+		}
+
+		strcpy(temp->phoneNumber, phone);
+
+		manager->memberArr[i] = *temp;
+	}
+	return 1;
+}
+
+int writeMemberManagerToBinary(FILE* file, MemberManager* manager)
 {
 	return 1;
 
 }
 
-int writeMemberManagerToBinary(char* fName, MemberManager* manager)
-{
-	return 1;
-
-}
-
-int readMemberManagerFromBinary(char* fName, MemberManager* manager)
+int readMemberManagerFromBinary(FILE* file, MemberManager* manager)
 {
 	return 1;
 

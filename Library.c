@@ -92,12 +92,17 @@ int writeLibraryToTextFile(const char* textFile, Library* library)
 
 int readLibraryFromTextFile(const char* textFile, Library* library)
 {
+	FILE* file = fopen(textFile, "r");
+	if (!file)
+	{
+		return 0;
+	}
 	int books, members, loans;
-	books = readBookManagerFromText(textFile, library->bookManager);
-	members = readMemberManagerFromText(textFile, library->memberManager);
-	loans = readLoanManagerFromText(textFile, library->loanManager);
+	books = readBookManagerFromText(file, library->bookManager);
+	members = readMemberManagerFromText(file, library->memberManager);
+	loans = readLoanManagerFromText(file, library->loanManager, library->bookManager, library->memberManager);
 
-	if (!books || !loans || !loans)
+	if (!books || !members )
 	{
 		handleError("problem occured during system loading the system\n");
 		return 0;

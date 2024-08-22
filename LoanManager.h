@@ -41,10 +41,10 @@ void freeLoan(Loan* loan);
 int freeLoanArr(Loan* loanArr[]);
 
 int writeLoanManagerToText(FILE* file, LoanManager* manager);
-int readLoanManagerFromText(const char* fName, LoanManager* manager);
+int readLoanManagerFromText(FILE* file, LoanManager* loanManager, BookManager* bookManager, MemberManager* memberManager);
 
-int writeLoanManagerToBinary(char* fName, LoanManager* manager);
-int readLoanManagerFromBinary(char* fName, LoanManager* manager);
+int writeLoanManagerToBinary(FILE* file, LoanManager* manager);
+int readLoanManagerFromBinary(FILE* file, LoanManager* manager);
 
 
 
