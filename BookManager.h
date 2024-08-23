@@ -50,6 +50,6 @@ Book* getBookByTitle(BookManager* manager,char* bookTitle);
 int writeBookManagerToText(FILE* file, BookManager* manager);
 int readBookManagerFromText(FILE* file, BookManager* manager);
 
-int writeBookManagerToBinary(char* fName, BookManager* manager);
-int readBookManagerFromBinary(char* fName, BookManager* manager);
+int writeBookManagerToBinary(FILE* file, BookManager* manager);
+int readBookManagerFromBinary(FILE* file, BookManager* manager);
 #endif // !BOOKMANAGER_H

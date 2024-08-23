@@ -102,7 +102,7 @@ int readLibraryFromTextFile(const char* textFile, Library* library)
 	members = readMemberManagerFromText(file, library->memberManager);
 	loans = readLoanManagerFromText(file, library->loanManager, library->bookManager, library->memberManager);
 
-	if (!books || !members )
+	if (!books || !members || !loans)
 	{
 		handleError("problem occured during system loading the system\n");
 		return 0;
@@ -113,11 +113,43 @@ int readLibraryFromTextFile(const char* textFile, Library* library)
 
 int writeLibraryToBinFile(const char* binFile, Library* library)
 {
+	FILE* file = fopen(binFile, "wb");
+	if (!file)
+	{
+		return 0;
+	}
+	int books, members, loans;
+	books = writeBookManagerToBinary(file, library->bookManager);
+	members = writeMemberManagerToBinary(file, library->memberManager);
+	loans = writeLoanManagerToBinary(file, library->loanManager);
+
+	if (!books || !loans || !loans)
+	{
+		handleError("Problem occured during system writing the system\n");
+		fclose(file);
+		return 0;
+	}
 	return 1;
 }
 
 int readLibraryFromBinFile(const char* binFile, Library* library)
 {
+	FILE* file = fopen(binFile, "rb");
+	if (!file)
+	{
+		return 0;
+	}
+	int books, members, loans;
+	books = readBookManagerFromBinary(file, library->bookManager);
+	members = readMemberManagerFromBinary(file, library->memberManager);
+	loans = readLoanManagerFromBinary(file, library->loanManager, library->bookManager, library->memberManager);
+
+	if (!books || !loans || !loans)
+	{
+		handleError("problem occured during system loading the system\n");
+		return 0;
+	}
+	printf("Loading sucsessfull!\n");
 	return 1;
 }
 

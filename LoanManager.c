@@ -260,6 +260,7 @@ Status getStatus(char* status)
 	}
 }
 
+
 int writeLoanManagerToText(FILE* file, LoanManager * manager)
 {
 	int count = 0;
@@ -339,20 +340,119 @@ int readLoanManagerFromText(FILE* file, LoanManager* loanManager, BookManager* b
 	return 1;
 }
 
-int writeLoanManagerToBinary(FILE* file, LoanManager * manager)
+
+int writeLoanManagerToBinary(FILE* file, LoanManager* manager)
 {
 	int count = 0;
 	ListNode* head = manager->loanList.head->next;
-	while (!head)
+
+	while (head)
 	{
 		count++;
 		head = head->next;
 	}
-	return 1;
 
+	fwrite(&count, sizeof(int), 1, file);
+
+	head = manager->loanList.head->next;
+
+	while (head)
+	{
+		Loan* temp = (Loan*)head->data;
+
+		fwrite(&temp->member->memberID, sizeof(int), 1, file);
+
+		int nameLength = (int)strlen(temp->title->name);
+		fwrite(&nameLength, sizeof(int), 1, file);
+		fwrite(temp->title->name, sizeof(char), nameLength, file);
+
+		fwrite(&temp->dateOfReturn, sizeof(Date), 1, file);
+		fwrite(&temp->status, sizeof(int), 1, file);
+
+		head = head->next;
+	}
+
+	return 1;
 }
 
-int readLoanManagerFromBinary(FILE* file, LoanManager * manager)
+int readLoanManagerFromBinary(FILE* file, LoanManager* loanManager, BookManager* bookManager, MemberManager* memberManager)
 {
+	int count = 0;
+
+	if (fread(&count, sizeof(int), 1, file) != 1) {
+		return 0;
+	}
+
+	loanManager->loanList = *initList();
+
+	for (int i = 0; i < count; i++) {
+		Loan* temp = initLoan();
+		if (!temp) {
+			return 0;
+		}
+
+		int memberID;
+		if (fread(&memberID, sizeof(int), 1, file) != 1) {
+			free(temp);
+			return 0;
+		}
+		temp->member = getMemberByID(memberManager, memberID);
+		if (!temp->member) {
+			free(temp);
+			return 0;
+		}
+
+		int nameLength;
+		if (fread(&nameLength, sizeof(int), 1, file) != 1) {
+			free(temp);
+			return 0;
+		}
+
+		temp->title = (Book*)malloc(sizeof(Book));
+		if (!temp->title) {
+			free(temp);
+			return 0;
+		}
+
+		temp->title->name = (char*)malloc(nameLength + 1);
+		if (!temp->title->name) {
+			free(temp->title);
+			free(temp);
+			return 0;
+		}
+
+		if (fread(temp->title->name, sizeof(char), nameLength, file) != (size_t)nameLength) {
+			free(temp->title->name);
+			free(temp->title);
+			free(temp);
+			return 0;
+		}
+		temp->title->name[nameLength] = '\0';
+
+		temp->title = getBookByTitle(bookManager, temp->title->name);
+		if (!temp->title) {
+			free(temp->title->name);
+			free(temp->title);
+			free(temp);
+			return 0;
+		}
+
+		if (fread(&temp->dateOfReturn, sizeof(Date), 1, file) != 1) {
+			free(temp->title->name);
+			free(temp->title);
+			free(temp);
+			return 0;
+		}
+
+		if (fread(&temp->status, sizeof(Status), 1, file) != 1) {
+			free(temp->title->name);
+			free(temp->title);
+			free(temp);
+			return 0;
+		}
+
+		insertFirst(&loanManager->loanList, temp);
+	}
+
 	return 1;
 }

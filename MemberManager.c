@@ -185,6 +185,7 @@ Member* getMemberByID(MemberManager* memberManager, int ID)
 	return NULL;
 }
 
+
 int writeMemberManagerToText(FILE* file, MemberManager* manager)
 {
 	Member* arr = manager->memberArr;
@@ -237,14 +238,68 @@ int readMemberManagerFromText(FILE* file, MemberManager* manager)
 	return 1;
 }
 
+
 int writeMemberManagerToBinary(FILE* file, MemberManager* manager)
 {
-	return 1;
+	fwrite(&manager->count, sizeof(int), 1, file);
 
+	for (int i = 0; i < manager->count; i++)
+	{
+		Member* temp = &manager->memberArr[i];
+
+		fwrite(&temp->memberID, sizeof(int), 1, file);
+
+		int nameLength = (int)strlen(temp->name) + 1;
+		fwrite(&nameLength, sizeof(int), 1, file);
+		fwrite(temp->name, sizeof(char), nameLength, file);
+
+		fwrite(temp->phoneNumber, sizeof(char), 11, file);
+	}
+
+	return 1;
 }
+
+
 
 int readMemberManagerFromBinary(FILE* file, MemberManager* manager)
 {
+	int count = 0;
+	fread(&count, sizeof(int), 1, file);
+
+	manager->memberArr = (Member*)malloc(count * sizeof(Member));
+	if (!manager->memberArr) 
+	{
+		return 0;
+	}
+
+	manager->count = count;
+
+	for (int i = 0; i < count; i++)
+	{
+		Member* temp = (Member*)malloc(sizeof(Member));
+		if (!temp) 
+		{
+			return 0;
+		}
+
+		fread(&temp->memberID, sizeof(int), 1, file);
+
+		int nameLength = 0;
+		fread(&nameLength, sizeof(int), 1, file);
+		temp->name = (char*)malloc(nameLength + 1);
+		if (!temp->name) 
+		{
+			free(temp);
+			return 0;
+		}
+		fread(temp->name, sizeof(char), nameLength, file);
+		temp->name[nameLength] = '\0';
+
+		fread(&temp->phoneNumber, sizeof(char), 11, file);
+
+		manager->memberArr[i] = *temp;
+	}
+
 	return 1;
 
 }

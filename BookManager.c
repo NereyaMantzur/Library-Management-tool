@@ -225,6 +225,7 @@ Book* getBookByTitle(BookManager* manager, char* bookTitle)
 	}return NULL;
 }
 
+
 int writeBookManagerToText(FILE* file, BookManager* manager) {
 	Book** arr = manager->BookPtrArr;
 	fprintf(file, "%d\n",manager->count);
@@ -291,14 +292,84 @@ int readBookManagerFromText(FILE* file, BookManager* manager) {
 }
 
 
-
-int writeBookManagerToBinary(char* fName, BookManager* manager)
+int writeBookManagerToBinary(FILE* file, BookManager* manager)
 {
+	fwrite(&manager->count, sizeof(int), 1, file);
+
+	for (int i = 0; i < manager->count; i++)
+	{
+		Book* book = manager->BookPtrArr[i];
+
+		fwrite(&book->genre, sizeof(int), 1, file);
+		fwrite(&book->copiesAvailable, sizeof(int), 1, file);
+
+		int nameLength = (int)strlen(book->name);
+		fwrite(&nameLength, sizeof(int), 1, file);
+		fwrite(book->name, sizeof(char), nameLength, file);
+
+		int authorNameLength = (int)strlen(book->author->name);
+		fwrite(&authorNameLength, sizeof(int), 1, file);
+		fwrite(book->author->name, sizeof(char), authorNameLength, file);
+	}
+
 	return 1;
 }
 
-
-int readBookManagerFromBinary(char* fName, BookManager* manager)
+int readBookManagerFromBinary(FILE* file, BookManager* manager)
 {
+	int count = 0;
+	fread(&count, sizeof(int), 1, file);
+
+	manager->BookPtrArr = (Book**)malloc(count * sizeof(Book*));
+	if (!manager->BookPtrArr) {
+		return 0;
+	}
+
+	manager->count = count;
+
+	for (int i = 0; i < count; i++)
+	{
+		Book* tempBook = (Book*)malloc(sizeof(Book));
+		if (!tempBook) {
+			return 0;
+		}
+
+		fread(&tempBook->genre, sizeof(int), 1, file);
+		fread(&tempBook->copiesAvailable, sizeof(int), 1, file);
+
+		int nameLength = 0;
+		fread(&nameLength, sizeof(int), 1, file);
+		tempBook->name = (char*)malloc(nameLength + 1);
+		if (!tempBook->name) {
+			free(tempBook);
+			return 0;
+		}
+		fread(tempBook->name, sizeof(char), nameLength, file);
+		tempBook->name[nameLength] = '\0';
+
+		tempBook->author = (Author*)malloc(sizeof(Author));
+		if (!tempBook->author) {
+			free(tempBook->name);
+			free(tempBook);
+			return 0;
+		}
+
+		int authorNameLength = 0;
+		fread(&authorNameLength, sizeof(int), 1, file);
+		tempBook->author->name = (char*)malloc(authorNameLength + 1);
+		if (!tempBook->author->name) {
+			free(tempBook->author);
+			free(tempBook->name);
+			free(tempBook);
+			return 0;
+		}
+		fread(tempBook->author->name, sizeof(char), authorNameLength, file);
+		tempBook->author->name[authorNameLength] = '\0';
+
+		tempBook->author->headBook = NULL;
+
+		manager->BookPtrArr[i] = tempBook;
+	}
+
 	return 1;
 }

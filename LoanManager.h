@@ -44,7 +44,7 @@ int writeLoanManagerToText(FILE* file, LoanManager* manager);
 int readLoanManagerFromText(FILE* file, LoanManager* loanManager, BookManager* bookManager, MemberManager* memberManager);
 
 int writeLoanManagerToBinary(FILE* file, LoanManager* manager);
-int readLoanManagerFromBinary(FILE* file, LoanManager* manager);
+int readLoanManagerFromBinary(FILE* file, LoanManager* loanManager, BookManager* bookManager, MemberManager* memberManager);
 
 
 

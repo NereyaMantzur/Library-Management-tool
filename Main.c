@@ -76,6 +76,7 @@ int main()
 		printf("\n");
 	} while (choice != 14);
 	writeLibraryToTextFile(LIBRARY_TEXT, library);
+	writeLibraryToBinFile(LIBRARY_BIN, library);
 }
 
 void headMessage()
