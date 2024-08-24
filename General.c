@@ -25,7 +25,7 @@ char* getStr() {
 
 
 void handleError(const char* message) {
-    fprintf(stderr, RED_TEXT "Error: %s\n" RESET_COLOR, message);
+	fprintf(stderr, RED_TEXT "Error: %s\n" RESET_COLOR, message);
 }
 
 void generalArrayFunction(void** arr, int count, void (*func)(void* element))

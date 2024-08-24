@@ -7,9 +7,9 @@
 
 // Define Library structure
 typedef struct {
-    BookManager* bookManager;
-    LoanManager* loanManager;
-    MemberManager* memberManager;
+	BookManager* bookManager;
+	LoanManager* loanManager;
+	MemberManager* memberManager;
 } Library;
 
 // Function declarations

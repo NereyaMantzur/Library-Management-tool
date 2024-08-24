@@ -9,57 +9,57 @@
 
 Author* initAuthor(BookManager* bookManager)
 {
-    Author* newAuthor = (Author*)malloc(sizeof(Author));
-    if (!newAuthor)
-    {
-        return NULL;
-    }
+	Author* newAuthor = (Author*)malloc(sizeof(Author));
+	if (!newAuthor)
+	{
+		return NULL;
+	}
 
-    printf("Please enter author name: ");
-    newAuthor->name = getStr();
+	printf("Please enter author name: ");
+	newAuthor->name = getStr();
 
-    for (int i = 0; i < bookManager->count; i++)
-    {
-        if (strcmp(bookManager->BookPtrArr[i]->author->name, newAuthor->name) == 0)
-        {
+	for (int i = 0; i < bookManager->count; i++)
+	{
+		if (strcmp(bookManager->BookPtrArr[i]->author->name, newAuthor->name) == 0)
+		{
 			insert(bookManager->BookPtrArr[i]->author, initAuthorBook(bookManager->BookPtrArr[i]));
-            free(newAuthor);
-            return bookManager->BookPtrArr[i]->author;
-        }
-    }
+			free(newAuthor);
+			return bookManager->BookPtrArr[i]->author;
+		}
+	}
 
-    newAuthor->headBook = NULL;
-    return newAuthor;
+	newAuthor->headBook = NULL;
+	return newAuthor;
 }
 
 AuthorBook* initAuthorBook(Book* book)
 {
-    AuthorBook* authorBook = (AuthorBook*)malloc(sizeof(AuthorBook));
-    if (!book)
-    {
-        return NULL;
-    }
+	AuthorBook* authorBook = (AuthorBook*)malloc(sizeof(AuthorBook));
+	if (!book)
+	{
+		return NULL;
+	}
 
 	authorBook->title = book->name;
-    authorBook->next = NULL;
-    authorBook->prev = NULL;
-    return authorBook;
+	authorBook->next = NULL;
+	authorBook->prev = NULL;
+	return authorBook;
 }
 
 void insert(Author* author, AuthorBook* title)
 {
-    if (!author->headBook)
-    {
-        author->headBook = title;
-        title->next = NULL;
-        title->prev = NULL;
-        return;
-    }
+	if (!author->headBook)
+	{
+		author->headBook = title;
+		title->next = NULL;
+		title->prev = NULL;
+		return;
+	}
 
-    title->next = author->headBook;
-    title->prev = NULL;
-    author->headBook->prev = title;
-    author->headBook = title;
+	title->next = author->headBook;
+	title->prev = NULL;
+	author->headBook->prev = title;
+	author->headBook = title;
 }
 
 

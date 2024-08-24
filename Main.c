@@ -16,7 +16,7 @@ int main()
 {
 	Library* library = initLibrary();
 	headMessage();
-	loadFile(LIBRARY_TEXT ,LIBRARY_BIN ,library);
+	loadFile(LIBRARY_TEXT, LIBRARY_BIN, library);
 	int choice;
 	do {
 		PrintMenu();
@@ -33,7 +33,7 @@ int main()
 			addNewLoan(library->bookManager, library->loanManager, library->memberManager);
 			break;
 		case 4:
-			removeBook(library->bookManager ,library->loanManager);
+			removeBook(library->bookManager, library->loanManager);
 			break;
 		case 5:
 			removeMember(library->memberManager);
@@ -47,20 +47,20 @@ int main()
 		case 8:
 			searchBook(library->bookManager);
 			break;
-		case 9:			
+		case 9:
 			printf("\n========================================== books available ======================================\n\n");
 			printBookArr(library->bookManager->BookPtrArr, library->bookManager->count);
 			break;
 		case 10:
 			printf("\n=========================================== Members list ========================================\n\n");
-			printMemberArr(library->memberManager->memberArr,library->memberManager->count);
+			printMemberArr(library->memberManager->memberArr, library->memberManager->count);
 			break;
 		case 11:
 			printf("\n========================================== active loan list =====================================\n\n");
 			printLoanList(library->loanManager);
 			break;
 		case 12:
-			printf("not implemented yet \n");
+			printPopularBooks(library->bookManager);
 			break;
 		case 13:
 			printf("not implemented yet \n");
@@ -108,13 +108,13 @@ void PrintMenu()
 	printf("[9]  - Print All Available Books\n");//DONE
 	printf("[10] - Print All Members\n");        //DONE
 	printf("[11] - Print All Loaned Books\n");   //DONE
-	printf("[12] - Print Popular Books\n");
+	printf("[12] - Print Popular Books\n");      //DONE 
 	printf("[13] - Print books of a specific author\n");
 	printf("[14] - Exit Program\n");
 	printf("Please enter your choice: ");
 }
 
-void loadFile(const char* textFile,const char* binFile ,Library* library)
+void loadFile(const char* textFile, const char* binFile, Library* library)
 {
 	int choice;
 	do
@@ -125,7 +125,7 @@ void loadFile(const char* textFile,const char* binFile ,Library* library)
 		printf("Please enter your choice: ");
 		scanf_s("%d", &choice);
 		getchar();
-		printf("=================================================================================================\n\n");
+		printf("\n=================================================================================================\n\n");
 		switch (choice)
 		{
 		case 1:

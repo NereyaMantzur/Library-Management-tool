@@ -9,18 +9,18 @@
 
 
 typedef enum {
-   OVERDUE,ACTIVE
+	OVERDUE, ACTIVE
 } Status;
 
-struct Loan{
-    Book* title;
-    Member* member;
-    Date dateOfReturn;
-    Status status;
+struct Loan {
+	Book* title;
+	Member* member;
+	Date dateOfReturn;
+	Status status;
 };
 
 struct LoanManager {
-    List loanList;
+	List loanList;
 };
 
 
@@ -39,6 +39,8 @@ void printLoanArrOfMember(MemberManager* manager, int memberNumber);
 int isOverdue(Date* date);
 void freeLoan(Loan* loan);
 int freeLoanArr(Loan* loanArr[]);
+void getMemberLoanArr(LoanManager* loanManager, MemberManager* memberManager);
+
 
 int writeLoanManagerToText(FILE* file, LoanManager* manager);
 int readLoanManagerFromText(FILE* file, LoanManager* loanManager, BookManager* bookManager, MemberManager* memberManager);

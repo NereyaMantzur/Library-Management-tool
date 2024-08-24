@@ -5,7 +5,7 @@
 #include "Library.h"
 
 
-Library* initLibrary() 
+Library* initLibrary()
 {
 	Library* library = (Library*)malloc(sizeof(Library));
 	if (!library)
@@ -38,7 +38,7 @@ void refreshLibraryLoans(LoanManager* manager)
 	}
 }
 
-void loadLibraryFromFile(const char* textFile,const char* binFile,Library* library)
+void loadLibraryFromFile(const char* textFile, const char* binFile, Library* library)
 {
 	int choice;
 	do
@@ -107,6 +107,7 @@ int readLibraryFromTextFile(const char* textFile, Library* library)
 		handleError("problem occured during system loading the system\n");
 		return 0;
 	}
+	getMemberLoanArr(library->loanManager, library->memberManager);
 	printf("Loading sucsessfull!\n");
 	return 1;
 }

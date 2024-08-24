@@ -31,7 +31,7 @@ Member* initMember()
 	printf("Please enter Member name: ");
 	newMember->name = getStr();
 	printf("Please enter phone numer [10 digits]: ");
-	strcpy(newMember->phoneNumber , initPhoneNumber());
+	strcpy(newMember->phoneNumber, initPhoneNumber());
 	newMember->loanCount = 0;
 	for (size_t i = 0; i < MAX_BOOKS; i++)
 	{
@@ -50,7 +50,7 @@ int addNewMember(MemberManager* manager)
 		return 0;
 	}
 	Member* add = initMember();
-	add->memberID = manager->nextID++;
+	add->memberID = initID(manager);
 	manager->memberArr[manager->count] = *add;
 	manager->count++;
 	printf("\n==================================== Member added succesfully! ==================================\n\n");
@@ -126,6 +126,17 @@ void swapMembers(Member* memberA, Member* memberB)
 	*memberB = temp;
 }
 
+int initID(MemberManager* manager)
+{
+	for (int i = 0; i < manager->count; i++)
+	{
+		if (manager->memberArr[i].memberID == manager->nextID)
+		{
+			manager->nextID++;
+		}
+	}
+	return manager->nextID;
+}
 
 char* initPhoneNumber()
 {
@@ -133,7 +144,7 @@ char* initPhoneNumber()
 	char* temp = NULL;
 
 	do {
-		scanf("%10s", phone);
+		scanf("%s", phone);
 		getchar();
 
 		if (isValidPhone(phone)) {
@@ -186,14 +197,15 @@ Member* getMemberByID(MemberManager* memberManager, int ID)
 }
 
 
+
 int writeMemberManagerToText(FILE* file, MemberManager* manager)
 {
 	Member* arr = manager->memberArr;
 	fprintf(file, "%d\n", manager->count);
 	fprintf(file, "Member ID           |Member name         |Member phone number\n");
+
 	for (size_t i = 0; i < manager->count; i++) {
-		fprintf(file, "%-20d %-20s %s\n", arr->memberID, arr->name, arr->phoneNumber);
-		fputs("\n", file);
+		fprintf(file, "%d\n%s\n%s\n", arr[i].memberID, arr[i].name, arr[i].phoneNumber);
 	}
 
 	return 1;
@@ -201,11 +213,11 @@ int writeMemberManagerToText(FILE* file, MemberManager* manager)
 
 int readMemberManagerFromText(FILE* file, MemberManager* manager)
 {
-	int count;
+	int count = 0;
 	fscanf(file, "%d", &count);
 	manager->memberArr = (Member*)malloc(count * sizeof(Member));
-	if (!manager->memberArr)
-	{
+
+	if (!manager->memberArr) {
 		return 0;
 	}
 
@@ -218,23 +230,30 @@ int readMemberManagerFromText(FILE* file, MemberManager* manager)
 
 	for (size_t i = 0; i < count; i++)
 	{
-		Member* temp = (Member*)malloc(sizeof(Member));
-		if (!temp)
-		{
-			return 0;
-		}
+		Member* temp = &manager->memberArr[i];
 		char name[256], phone[11];
-		fscanf(file, "%d%s%s",&temp->memberID,&name,&phone);
+
+		fscanf(file, "%d\n", &temp->memberID);
+		fgets(name, sizeof(name), file);
+		fgets(phone, sizeof(phone), file);
+
+		name[strcspn(name, "\n")] = '\0';
+		phone[strcspn(phone, "\n")] = '\0';
 
 		temp->name = (char*)malloc(strlen(name) + 1);
-		if (temp->name) {
-			strcpy(temp->name, name);
+		if (!temp->name) {
+			return 0;
 		}
+		strcpy(temp->name, name);
 
 		strcpy(temp->phoneNumber, phone);
 
-		manager->memberArr[i] = *temp;
+		for (size_t i = 0; i < MAX_BOOKS; i++)
+		{
+			temp->loanArr[i] = NULL;
+		}
 	}
+
 	return 1;
 }
 
@@ -260,14 +279,13 @@ int writeMemberManagerToBinary(FILE* file, MemberManager* manager)
 }
 
 
-
 int readMemberManagerFromBinary(FILE* file, MemberManager* manager)
 {
 	int count = 0;
 	fread(&count, sizeof(int), 1, file);
 
 	manager->memberArr = (Member*)malloc(count * sizeof(Member));
-	if (!manager->memberArr) 
+	if (!manager->memberArr)
 	{
 		return 0;
 	}
@@ -277,7 +295,7 @@ int readMemberManagerFromBinary(FILE* file, MemberManager* manager)
 	for (int i = 0; i < count; i++)
 	{
 		Member* temp = (Member*)malloc(sizeof(Member));
-		if (!temp) 
+		if (!temp)
 		{
 			return 0;
 		}
@@ -287,7 +305,7 @@ int readMemberManagerFromBinary(FILE* file, MemberManager* manager)
 		int nameLength = 0;
 		fread(&nameLength, sizeof(int), 1, file);
 		temp->name = (char*)malloc(nameLength + 1);
-		if (!temp->name) 
+		if (!temp->name)
 		{
 			free(temp);
 			return 0;

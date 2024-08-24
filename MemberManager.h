@@ -8,17 +8,17 @@
 
 
 typedef struct {
-    char* name;
-    int memberID;
-    char phoneNumber[11];
-    struct Loan* loanArr[MAX_BOOKS];
-    int loanCount;
+	char* name;
+	int memberID;
+	char phoneNumber[11];
+	struct Loan* loanArr[MAX_BOOKS];
+	int loanCount;
 } Member;
 
 typedef struct {
-    Member* memberArr;
-    int count;
-    int nextID;
+	Member* memberArr;
+	int count;
+	int nextID;
 } MemberManager;
 
 //functions
@@ -31,11 +31,12 @@ int printMember(const Member* member);
 void swapMembers(Member* memberA, Member* memberB);
 char* initPhoneNumber();
 int freeMember(Member* member);
+int initID(MemberManager* manager);
 char* initPhoneNumber();
 int isValidPhone(char* phone);
 int freeMember(Member* member);
 
-Member* getMemberByID(MemberManager* memberManager ,int ID);
+Member* getMemberByID(MemberManager* memberManager, int ID);
 
 int writeMemberManagerToText(FILE* file, MemberManager* manager);
 int readMemberManagerFromText(FILE* file, MemberManager* manager);

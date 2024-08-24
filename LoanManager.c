@@ -35,13 +35,13 @@ void addNewLoan(BookManager* bookManager, LoanManager* loanManager, MemberManage
 {
 	printf("\n========================================== Loan adding ==========================================\n\n");
 	if (!printMemberArr(memberManager->memberArr, memberManager->count))
-		return;	
+		return;
 	printf("To which member add a new loan (#number): ");
 	int choice;
 	scanf("%d", &choice);
 	getchar();
 	Book* title = searchBook(bookManager);
-	if (title && !isLoanedByMember(memberManager->memberArr[choice - 1].loanArr , title))
+	if (title && !isLoanedByMember(memberManager->memberArr[choice - 1].loanArr, title))
 		loanBook(bookManager, loanManager, title, &memberManager->memberArr[choice - 1]);
 }
 
@@ -82,7 +82,7 @@ void returnBook(BookManager* bookManager, LoanManager* loanManager, MemberManage
 	printf("\n========================================= Book returning ========================================\n\n");
 	int memberNumber;
 	int bookNumber;
-	printMemberArr(memberManager->memberArr , memberManager->count);
+	printMemberArr(memberManager->memberArr, memberManager->count);
 	printf("Which member want to return a book (#): ");
 	scanf("%d", &memberNumber);
 	getchar();
@@ -90,20 +90,20 @@ void returnBook(BookManager* bookManager, LoanManager* loanManager, MemberManage
 	printf("Which book is returned (#): ");
 	scanf("%d", &bookNumber);
 	getchar();
-	removeLoanFromMember( loanManager,bookManager->BookPtrArr[bookNumber - 1], &memberManager->memberArr[memberNumber -1]);
+	removeLoanFromMember(loanManager, bookManager->BookPtrArr[bookNumber - 1], &memberManager->memberArr[memberNumber - 1]);
 }
 
-int removeLoanFromMember( LoanManager* loanManager,Book* title, Member* member)
+int removeLoanFromMember(LoanManager* loanManager, Book* title, Member* member)
 {
 	ListNode* head = loanManager->loanList.head->next;
 	while (head)
 	{
-		if (!strcmp(((Loan*)head->data)->title->name,title->name ))
+		if (!strcmp(((Loan*)head->data)->title->name, title->name))
 		{
 			deleteNode(&loanManager->loanList, head);
 			for (int i = 0; i < MAX_BOOKS; i++)
 			{
-				if (!strcmp(member->loanArr[i]->title->name,title->name))
+				if (!strcmp(member->loanArr[i]->title->name, title->name))
 				{
 					member->loanCount--;
 					//removeLoanFromLoanArr(member, (Loan*)head->data);
@@ -145,13 +145,13 @@ int isLoanedByMember(Loan* loanArr[], Book* title)
 	return 0;
 }
 
-int isInLoanList(LoanManager* loanManager,char* bookName)
+int isInLoanList(LoanManager* loanManager, char* bookName)
 {
 	ListNode* head = loanManager->loanList.head->next;
 	while (head)
 	{
 		Loan* loan = (Loan*)head->data;
-		if (!strcmp(loan->title->name,bookName))
+		if (!strcmp(loan->title->name, bookName))
 		{
 			return 1;
 		}
@@ -194,7 +194,7 @@ void printLoanList(LoanManager* manager)
 	printf("#  |Member ID      |Book name      |Date of return |Status\n");
 	while (head)
 	{
-		printf("%-2d |", i );
+		printf("%-2d |", i);
 		printLoan((Loan*)head->data);
 		head = head->next;
 		i++;
@@ -220,8 +220,8 @@ void printLoanArrOfMember(MemberManager* manager, int memberNumber)
 
 int isOverdue(Date* date)
 {
-	time_t t = time(NULL); // Get the current time
-	struct tm currentTime = *localtime(&t); // Convert to local time structure
+	time_t t = time(NULL);
+	struct tm currentTime = *localtime(&t);
 	int day = currentTime.tm_mday;
 	int month = currentTime.tm_mon + 1;
 	int year = currentTime.tm_year + 1900;
@@ -233,9 +233,9 @@ int isOverdue(Date* date)
 	return 0;
 }
 
-void freeLoan(Loan* loan) 
+void freeLoan(Loan* loan)
 {
-	if (loan) 
+	if (loan)
 	{
 		free(&loan->dateOfReturn);
 		free(loan);
@@ -250,7 +250,7 @@ int freeLoanArr(Loan* loanArr[])
 
 Status getStatus(char* status)
 {
-	if (!strcmp(status , "ACTIVE"))
+	if (!strcmp(status, "ACTIVE"))
 	{
 		return ACTIVE;
 	}
@@ -260,38 +260,46 @@ Status getStatus(char* status)
 	}
 }
 
+void getMemberLoanArr(LoanManager* loanManager, MemberManager* memberManager)
+{
+	ListNode* head = loanManager->loanList.head->next;
+	while (head)
+	{
+		Loan* loan = (Loan*)head->data;
+		addLoanToLoanArr(loan->member, loan);
+		head = head->next;
+	}
+}
 
-int writeLoanManagerToText(FILE* file, LoanManager * manager)
+
+int writeLoanManagerToText(FILE* file, LoanManager* manager)
 {
 	int count = 0;
 	ListNode* head = manager->loanList.head->next;
+
 	while (head)
 	{
 		count++;
 		head = head->next;
 	}
 	head = manager->loanList.head->next;
+
 	fprintf(file, "%d\n", count);
-	fprintf(file, "Member ID      |Book name      |Date of return |Status\n");
+	fprintf(file, "Member ID      |Book name           |Date of return   |Status\n");
+
 	Loan* loan;
 	while (head)
 	{
 		loan = (Loan*)head->data;
-		switch (loan->status)
-		{
-		case OVERDUE:
-			fprintf(file,"%-15d %-15s ", loan->member->memberID, loan->title->name);
-			fprintf(file,"%2d %2d %4d", loan->dateOfReturn.day, loan->dateOfReturn.month, loan->dateOfReturn.year);
-			fprintf(file,"      OVERDUE\n");
-			break;
-		case ACTIVE:
-			fprintf(file,"%-15d %-15s ", loan->member->memberID, loan->title->name);
-			fprintf(file, "%2d %2d %4d", loan->dateOfReturn.day, loan->dateOfReturn.month, loan->dateOfReturn.year);
-			fprintf(file,"      ACTIVE\n");
-			break;
-		default:
-			break;
-		}
+
+		fprintf(file, "%d\n%s\n%d\n%d\n%d\n%d\n",
+			loan->member->memberID,
+			loan->title->name,
+			loan->dateOfReturn.day,
+			loan->dateOfReturn.month,
+			loan->dateOfReturn.year,
+			loan->status
+		);
 		head = head->next;
 	}
 	return 1;
@@ -301,6 +309,7 @@ int readLoanManagerFromText(FILE* file, LoanManager* loanManager, BookManager* b
 {
 	int count;
 	fscanf(file, "%d", &count);
+
 	loanManager->loanList = *initList();
 	loanManager->loanList.head = initListNode();
 
@@ -308,37 +317,36 @@ int readLoanManagerFromText(FILE* file, LoanManager* loanManager, BookManager* b
 	fgets(buffer, sizeof(buffer), file);
 	fgets(buffer, sizeof(buffer), file);
 
-	ListNode* head = loanManager->loanList.head;
-	while (head)
+	for (int i = 0; i < count; i++)
 	{
-		head->data = initLoan();
-		int memberID, day, month, year;
-		char bookTitle[256], status[256];
-		Loan* temp = (Loan*)head->data;
+		Loan* temp = initLoan();
 		if (!temp)
 		{
-			return 0;
+			return 0; 
 		}
 
+		int memberID ,status, day, month, year;
+		char bookTitle[256];
+
 		fscanf(file, "%d", &memberID);
-		fscanf(file, "%s", bookTitle);
-		fscanf(file, "%d", &day);
-		fscanf(file, "%d", &month);
-		fscanf(file, "%d", &year);
-		fscanf(file, "%s", &status);
+		fgets(buffer, sizeof(buffer), file);
+		fgets(bookTitle,256,file);
+		bookTitle[strlen(bookTitle) - 1] = '\0';
+		fscanf(file, "%d%d%d", &day, &month, &year);
+		fscanf(file, "%d", &status);
 
 		temp->member = getMemberByID(memberManager, memberID);
 		temp->title = getBookByTitle(bookManager, bookTitle);
 		temp->dateOfReturn.day = day;
 		temp->dateOfReturn.month = month;
 		temp->dateOfReturn.year = year;
-		temp->status = getStatus(status);
+		temp->status = status;
 
-		head = head->next;
 		insertFirst(&loanManager->loanList, temp);
 	}
 	return 1;
 }
+
 
 
 int writeLoanManagerToBinary(FILE* file, LoanManager* manager)

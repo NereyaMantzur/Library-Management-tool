@@ -45,7 +45,7 @@ List* insertFirst(List* list, void* data) {
 
 int deleteNode(List* list, ListNode* node) {
 	if (!list || !node) {
-		return 0; 
+		return 0;
 	}
 
 	if (node == list->head) {

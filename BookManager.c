@@ -8,7 +8,7 @@
 #include "LoanManager.h"
 
 
-BookManager* initBookManager( )
+BookManager* initBookManager()
 {
 	BookManager* manager = (BookManager*)malloc(sizeof(BookManager));
 	if (!manager)
@@ -29,12 +29,13 @@ Book* initBook(BookManager* manager)
 	}
 	printf("Please enter book name: ");
 	newBook->name = getStr();
-	printf("Please enter book genre: ");
-	scanf_s("%d", &newBook->genre);
+	printf("Please enter book genre: \n");
+	newBook->genre = getGenre();
 	getchar();
 	printf("Please enter number of copies: ");
 	scanf_s("%d", &newBook->copiesAvailable);
 	getchar();
+	newBook->totalCopies = newBook->copiesAvailable;
 	newBook->author = initAuthor(manager);
 	insert(newBook->author, initAuthorBook(newBook));
 
@@ -69,6 +70,38 @@ int addNewBook(BookManager* manager)
 	manager->count++;
 	printf("\n===================================== Book added succesfully! ===================================\n\n");
 	return 1;
+}
+
+Genre getGenre()
+{
+	do
+	{
+		printf("[1]  - Science fiction\n");
+		printf("[2]  - Mystery\n");
+		printf("[3]  - Fantasy\n");
+		printf("[4]  - Romance\n");
+		printf("[5]  - Historical fiction\n");
+		printf("Your answer: ");
+
+		int choice;
+		scanf("%d", &choice);
+		switch (choice)
+		{
+		case SCIENCE_FICTION:
+			return SCIENCE_FICTION;
+		case MYSTERY:
+			return MYSTERY;
+		case FANTASY:
+			return FANTASY;
+		case ROMANCE:
+			return ROMANCE;
+		case HISTORICAL_FICTION:
+			return HISTORICAL_FICTION;
+		default:
+			handleError("Not valid choice! Try again.");
+			break;
+		}
+	} while (1);
 }
 
 int removeBook(BookManager* bookManager, LoanManager* loanManager)
@@ -118,7 +151,7 @@ void printBook(const Book* title)
 	{
 		return;
 	}
-	printf("%-20s|%-20d|%-20s|%d\n", title->name, title->genre, title->author->name, title->copiesAvailable);
+	printf("%-20s|%-20d|%-20s|%d/%d\n", title->name, title->genre, title->author->name, title->copiesAvailable,title->totalCopies);
 }
 
 void swap(Book* bookA, Book* bookB) {
@@ -170,8 +203,8 @@ Book* searchBook(BookManager* manager)
 		res = (Book**)bsearch(&temp, manager->BookPtrArr, manager->count, sizeof(Book*), compareBookByName);
 		break;
 	case 2:
-		printf("Please enter the genre of the book: ");
-		scanf_s("%d", &temp->genre);
+		printf("Please enter the genre of the book: \n");
+		temp->genre = getGenre();
 		getchar();
 		res = (Book**)bsearch(&temp, manager->BookPtrArr, manager->count, sizeof(Book*), compareBookByGenre);
 		break;
@@ -207,12 +240,13 @@ int compareBookByGenre(const void* a, const void* b) {
 	return bookA->genre - bookB->genre;
 }
 
-int compareBookByAuthor(const void* a, const void* b) 
+int compareBookByAuthor(const void* a, const void* b)
 {
 	Book* bookA = *(Book**)a;
 	Book* bookB = *(Book**)b;
 	return strcmp(bookA->author->name, bookB->author->name);
 }
+
 
 Book* getBookByTitle(BookManager* manager, char* bookTitle)
 {
@@ -222,19 +256,39 @@ Book* getBookByTitle(BookManager* manager, char* bookTitle)
 		{
 			return manager->BookPtrArr[i];
 		}
-	}return NULL;
+	}
+	return NULL;
 }
+
+void printPopularBooks(BookManager* manager)
+{
+	printf("\n=========================================== popular books =======================================\n\n");
+	int isPrined = 0;
+	printf("Book name           |Genre               |Author              |Available\n");
+	for (int i = 0; i < manager->count; i++)
+	{
+		if (ISPOPULARBOOK(manager->BookPtrArr[i]->totalCopies, manager->BookPtrArr[i]->copiesAvailable))
+		{
+			printBook(manager->BookPtrArr[i]);
+			isPrined = 1;
+		}
+	}
+	if (!isPrined)
+	{
+		handleError("Not enough books loaned to detemine popular books\n");
+	}
+	printf("\n=================================================================================================\n");
+}
+
 
 
 int writeBookManagerToText(FILE* file, BookManager* manager) {
 	Book** arr = manager->BookPtrArr;
-	fprintf(file, "%d\n",manager->count);
-	fprintf(file,"Book name           |Genre               |Author              |Available\n");
+	fprintf(file, "%d\n", manager->count);
+	fprintf(file, "Book name           |Genre               |Author              |Available | Total Copies\n");
 	for (size_t i = 0; i < manager->count; i++) {
-		fprintf(file, "%-20s %-20d %-20s %d\n", arr[i]->name, arr[i]->genre, arr[i]->author->name, arr[i]->copiesAvailable);
-		fputs("\n", file);
+		fprintf(file, "%s\n%d\n%s\n%d\n%d\n", arr[i]->name, arr[i]->genre, arr[i]->author->name, arr[i]->copiesAvailable, arr[i]->totalCopies);
 	}
-
 	return 1;
 }
 
@@ -247,34 +301,44 @@ int readBookManagerFromText(FILE* file, BookManager* manager) {
 		return 0;
 	}
 
-	manager->count = count; 
+	manager->count = count;
 
 	char buffer[256];
-	fgets(buffer, sizeof(buffer), file); 
-	fgets(buffer, sizeof(buffer), file); 
+	fgets(buffer, sizeof(buffer), file);
+	fgets(buffer, sizeof(buffer), file);
 
 	for (size_t i = 0; i < count; i++) {
 		Book* temp = (Book*)malloc(sizeof(Book));
 		if (!temp) {
-			return 0; 
+			return 0;
 		}
 
 		temp->author = (Author*)malloc(sizeof(Author));
 		if (!temp->author) {
-			free(temp); 
+			free(temp);
 			return 0;
 		}
 		temp->author->headBook = NULL;
 
 		char name[256];
 		char authorName[256];
-		int genre, copies;
+		int genre, copiesAvailable, totalCopies;
 
-		fscanf(file, "%s %d %s %d", name, &genre, authorName, &copies);
+		fgets(name, 256, file);
+		name[strcspn(name, "\n")] = 0;
+
+		fscanf(file, "%d", &genre);
+		fgetc(file);
+
+		fgets(authorName, 256, file);
+		authorName[strcspn(authorName, "\n")] = 0;
+
+		fscanf(file, "%d%d", &copiesAvailable, &totalCopies);
+		fgetc(file);
 
 		temp->name = (char*)malloc(strlen(name) + 1);
 		if (temp->name) {
-			strcpy(temp->name, name); 
+			strcpy(temp->name, name);
 		}
 
 		temp->author->name = (char*)malloc(strlen(authorName) + 1);
@@ -283,13 +347,15 @@ int readBookManagerFromText(FILE* file, BookManager* manager) {
 		}
 
 		temp->genre = genre;
-		temp->copiesAvailable = copies;
+		temp->copiesAvailable = copiesAvailable;
+		temp->totalCopies = totalCopies;
 
 		insert(temp->author, initAuthorBook(temp));
 		manager->BookPtrArr[i] = temp;
 	}
 	return 1;
 }
+
 
 
 int writeBookManagerToBinary(FILE* file, BookManager* manager)
@@ -302,6 +368,7 @@ int writeBookManagerToBinary(FILE* file, BookManager* manager)
 
 		fwrite(&book->genre, sizeof(int), 1, file);
 		fwrite(&book->copiesAvailable, sizeof(int), 1, file);
+		fwrite(&book->totalCopies, sizeof(int), 1, file);
 
 		int nameLength = (int)strlen(book->name);
 		fwrite(&nameLength, sizeof(int), 1, file);
@@ -336,6 +403,7 @@ int readBookManagerFromBinary(FILE* file, BookManager* manager)
 
 		fread(&tempBook->genre, sizeof(int), 1, file);
 		fread(&tempBook->copiesAvailable, sizeof(int), 1, file);
+		fread(&tempBook->totalCopies, sizeof(int), 1, file);
 
 		int nameLength = 0;
 		fread(&nameLength, sizeof(int), 1, file);
