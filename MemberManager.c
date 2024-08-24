@@ -95,7 +95,6 @@ int removeMember(MemberManager* manager)
 	return 0;
 }
 
-
 int printMemberArr(const Member* memberArr, int count)
 {
 	if (count == 0)
@@ -197,7 +196,6 @@ Member* getMemberByID(MemberManager* memberManager, int ID)
 }
 
 
-
 int writeMemberManagerToText(FILE* file, MemberManager* manager)
 {
 	Member* arr = manager->memberArr;
@@ -278,7 +276,6 @@ int writeMemberManagerToBinary(FILE* file, MemberManager* manager)
 
 	return 1;
 }
-
 
 int readMemberManagerFromBinary(FILE* file, MemberManager* manager)
 {

@@ -62,12 +62,26 @@ void insert(Author* author, AuthorBook* title)
 	author->headBook = title;
 }
 
-
-
-void printAuthor(Author* author)
+void printBooksOfAuthor(BookManager* manager)
 {
-	printf("%s", author->name);
+	printf("Please enter the name of the author: ");
+	char* name = getStr();
+
+	for (int i = 0, j = 1; i < manager->count; i++)
+	{
+		if (!strcmp(name , manager->BookPtrArr[i]->author->name))
+		{
+			printf("[%d] - " , j++);
+			printAuthorBook(manager->BookPtrArr[i]->author->headBook);
+		}
+	}
 }
+
+void printAuthorBook(AuthorBook* authorBook)
+{
+	printf("%s\n", authorBook->title);
+}
+
 
 void freeAuthor(Author* author)
 {

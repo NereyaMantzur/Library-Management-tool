@@ -63,7 +63,7 @@ int main()
 			printPopularBooks(library->bookManager);
 			break;
 		case 13:
-			printf("not implemented yet \n");
+			printBooksOfAuthor(library->bookManager);
 			break;
 		case 14:
 			printf("closing program!\n");
@@ -97,19 +97,19 @@ void headMessage()
 void PrintMenu()
 {
 	printf("=========================================== Main menu ===========================================\n\n");
-	printf("[1]  - Add New Book\n");             //DONE
-	printf("[2]  - Add New Member\n");           //DONE
-	printf("[3]  - Add New Loan\n");             //DONE
-	printf("[4]  - Remove Book\n");              //DONE
-	printf("[5]  - Remove Member\n");            //DONE
-	printf("[6]  - Return a Book\n");            //DONE
-	printf("[7]  - Sort books\n");               //DONE
-	printf("[8]  - Search a Book\n");            //DONE
-	printf("[9]  - Print All Available Books\n");//DONE
-	printf("[10] - Print All Members\n");        //DONE
-	printf("[11] - Print All Loaned Books\n");   //DONE
-	printf("[12] - Print Popular Books\n");      //DONE 
-	printf("[13] - Print books of a specific author\n");
+	printf("[1]  - Add New Book\n");                      //DONE
+	printf("[2]  - Add New Member\n");                    //DONE
+	printf("[3]  - Add New Loan\n");                      //DONE
+	printf("[4]  - Remove Book\n");                       //DONE
+	printf("[5]  - Remove Member\n");                     //DONE
+	printf("[6]  - Return a Book\n");                     //DONE
+	printf("[7]  - Sort books\n");                        //DONE
+	printf("[8]  - Search a Book\n");                     //DONE
+	printf("[9]  - Print All Available Books\n");         //DONE
+	printf("[10] - Print All Members\n");                 //DONE
+	printf("[11] - Print All Loaned Books\n");            //DONE
+	printf("[12] - Print Popular Books\n");               //DONE 
+	printf("[13] - Print books of a specific author\n");  //DONE 
 	printf("[14] - Exit Program\n");
 	printf("Please enter your choice: ");
 }

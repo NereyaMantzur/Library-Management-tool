@@ -1,4 +1,4 @@
-2
+4
 Book name           |Genre               |Author              |Available | Total Copies
 Harry potter
 1
@@ -10,6 +10,16 @@ Lord of the rings
 Raven
 14
 15
+Harry potter 2
+1
+James
+45
+45
+Find nemo
+3
+Ravit tzur
+31
+31
 2
 Member ID           |Member name         |Member phone number
 1

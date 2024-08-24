@@ -21,8 +21,10 @@ typedef struct Author {
 Author* initAuthor(BookManager* bookManager);
 AuthorBook* initAuthorBook(Book* book);
 void insert(Author* author, AuthorBook* title);
-void printAuthor(Author* author);
 void freeAuthor(Author* author);
+void printBooksOfAuthor(BookManager* manager);
+void printAuthorBook(AuthorBook* authorBook);
+
 
 #endif // !AUTHOR_H
 

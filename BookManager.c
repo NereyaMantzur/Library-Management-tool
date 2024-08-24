@@ -435,6 +435,7 @@ int readBookManagerFromBinary(FILE* file, BookManager* manager)
 		tempBook->author->name[authorNameLength] = '\0';
 
 		tempBook->author->headBook = NULL;
+		insert(tempBook->author, initAuthorBook(tempBook));
 
 		manager->BookPtrArr[i] = tempBook;
 	}
