@@ -150,6 +150,7 @@ int readLibraryFromBinFile(const char* binFile, Library* library)
 		handleError("problem occured during system loading the system\n");
 		return 0;
 	}
+	getMemberLoanArr(library->loanManager, library->memberManager);
 	printf("Loading sucsessfull!\n");
 	return 1;
 }

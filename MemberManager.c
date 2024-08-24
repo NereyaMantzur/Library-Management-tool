@@ -273,6 +273,7 @@ int writeMemberManagerToBinary(FILE* file, MemberManager* manager)
 		fwrite(temp->name, sizeof(char), nameLength, file);
 
 		fwrite(temp->phoneNumber, sizeof(char), 11, file);
+
 	}
 
 	return 1;
@@ -315,7 +316,13 @@ int readMemberManagerFromBinary(FILE* file, MemberManager* manager)
 
 		fread(&temp->phoneNumber, sizeof(char), 11, file);
 
+		for (size_t i = 0; i < MAX_BOOKS; i++)
+		{
+			temp->loanArr[i] = NULL;
+		}
+
 		manager->memberArr[i] = *temp;
+
 	}
 
 	return 1;
