@@ -1,26 +1,26 @@
 4
 Book name           |Genre               |Author              |Available | Total Copies
-The little prince
-3
-Antoine exupery
-23
-25
 Harry potter
 1
 J k rowling
 39
 40
-The hobbit
-3
-J r r tolkein
-14
-15
 The alchemist
 3
 Paulo coelho
 32
 32
-4
+The hobbit
+3
+J r r tolkein
+14
+15
+The little prince
+3
+Antoine exupery
+22
+25
+5
 Member ID           |Member name         |Member phone number |loan Count
 1
 Ron
@@ -38,16 +38,14 @@ Naama
 Aviv
 0563467335
 0
-4
+5
+Roni
+0524874750
+1
+5
 Member ID           |Book name           |Date of return      |Status
-2
-The little prince
-24
-9
-2024
 1
-1
-The little prince
+Harry potter
 24
 9
 2024
@@ -59,7 +57,19 @@ The hobbit
 2024
 1
 1
-Harry potter
+The little prince
+24
+9
+2024
+1
+2
+The little prince
+24
+9
+2024
+1
+5
+The little prince
 24
 9
 2024

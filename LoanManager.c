@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <ctype.h>
 
 #include "LoanManager.h"
 
@@ -40,6 +41,11 @@ void addNewLoan(BookManager* bookManager, LoanManager* loanManager, MemberManage
 	int choice;
 	scanf("%d", &choice);
 	getchar();
+	if (choice < 1 || choice > memberManager->count)
+	{
+		handleError("try again!\n");
+		return;
+	}
 	Book* title = searchBook(bookManager);
 	if (title && !isLoanedByMember(memberManager->memberArr[choice - 1].loanArr, title))
 		loanBook(bookManager, loanManager, title, &memberManager->memberArr[choice - 1]);
@@ -86,9 +92,9 @@ void returnBook(BookManager* bookManager, LoanManager* loanManager, MemberManage
 	printf("Which member want to return a book (#): ");
 	scanf("%d", &memberNumber);
 	getchar();
-	if (memberNumber < 1 || memberNumber > bookManager->count)
+	if (memberNumber < 1 || memberNumber > memberManager->count)
 	{
-		handleError("Error! try again \n");
+		handleError("try again! \n");
 		return;
 	}
 	if (!printLoanArrOfMember(memberManager, memberNumber))
@@ -100,7 +106,7 @@ void returnBook(BookManager* bookManager, LoanManager* loanManager, MemberManage
 	getchar();
 	if (bookNumber < 1 || bookNumber > memberManager->memberArr[memberNumber - 1].loanCount)
 	{
-		handleError("Error! try again \n");
+		handleError("try again!\n");
 		return;
 	}
 	removeLoanFromMember(loanManager, memberManager->memberArr[memberNumber-1].loanArr[bookNumber -1]->title, &memberManager->memberArr[memberNumber - 1]);
@@ -114,21 +120,22 @@ int removeLoanFromMember(LoanManager* loanManager, Book* title, Member* member)
 		Loan* loan = (Loan*)head->data;
 		if (loan->member == member && strcmp(loan->title->name, title->name) == 0)
 		{
-			// Remove loan from linked list
 			deleteNode(&loanManager->loanList, head);
 
-			// Remove loan from member's loan array
 			for (int i = 0; i < member->loanCount; i++)
 			{
 				if (member->loanArr[i] == loan)
 				{
-					// Shift loans to fill the gap
 					for (int j = i; j < member->loanCount - 1; j++)
 					{
 						member->loanArr[j] = member->loanArr[j + 1];
 					}
-					member->loanCount--;
-					title->copiesAvailable++;  // Increment available copies
+					member->loanArr[--member->loanCount] = NULL;
+
+					title->copiesAvailable++;
+
+					free(loan);
+
 					printf("\n======================================== Book returned! ========================================\n\n");
 					return 1;
 				}
@@ -139,6 +146,7 @@ int removeLoanFromMember(LoanManager* loanManager, Book* title, Member* member)
 	printf("\n====================================== Failed to return book ====================================\n\n");
 	return 0;
 }
+
 
 
 int addLoanToLoanArr(Member* member, Loan* loan)

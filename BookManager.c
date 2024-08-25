@@ -255,9 +255,6 @@ Book* searchBook(BookManager* manager)
 	}
 
 	handleError("Book not found!");
-	free(temp->name);
-	free(temp->author);
-	free(temp);
 	return NULL;
 }
 
