@@ -49,7 +49,7 @@ int main()
 			break;
 		case 9:
 			printf("\n========================================== books available ======================================\n\n");
-			printBookArr(library->bookManager->BookPtrArr, library->bookManager->count);
+			printBookArr(library->bookManager->bookPtrArr, library->bookManager->count);
 			break;
 		case 10:
 			printf("\n=========================================== Members list ========================================\n\n");

@@ -200,10 +200,10 @@ int writeMemberManagerToText(FILE* file, MemberManager* manager)
 {
 	Member* arr = manager->memberArr;
 	fprintf(file, "%d\n", manager->count);
-	fprintf(file, "Member ID           |Member name         |Member phone number\n");
+	fprintf(file, "Member ID           |Member name         |Member phone number |loan Count\n");
 
 	for (size_t i = 0; i < manager->count; i++) {
-		fprintf(file, "%d\n%s\n%s\n", arr[i].memberID, arr[i].name, arr[i].phoneNumber);
+		fprintf(file, "%d\n%s\n%s\n%d\n", arr[i].memberID, arr[i].name, arr[i].phoneNumber,arr[i].loanCount);
 	}
 
 	return 1;
@@ -234,6 +234,7 @@ int readMemberManagerFromText(FILE* file, MemberManager* manager)
 		fscanf(file, "%d\n", &temp->memberID);
 		fgets(name, sizeof(name), file);
 		fgets(phone, sizeof(phone), file);
+		fscanf(file, "%d\n", &temp->loanCount);
 
 		name[strcspn(name, "\n")] = '\0';
 		phone[strcspn(phone, "\n")] = '\0';
@@ -267,10 +268,11 @@ int writeMemberManagerToBinary(FILE* file, MemberManager* manager)
 		fwrite(&temp->memberID, sizeof(int), 1, file);
 
 		int nameLength = (int)strlen(temp->name) + 1;
+
 		fwrite(&nameLength, sizeof(int), 1, file);
 		fwrite(temp->name, sizeof(char), nameLength, file);
-
 		fwrite(temp->phoneNumber, sizeof(char), 11, file);
+		fwrite(&temp->loanCount, sizeof(int), 1, file);
 
 	}
 
@@ -313,6 +315,8 @@ int readMemberManagerFromBinary(FILE* file, MemberManager* manager)
 
 		fread(&temp->phoneNumber, sizeof(char), 11, file);
 
+		fread(&temp->loanCount, sizeof(int), 1, file);
+
 		for (size_t i = 0; i < MAX_BOOKS; i++)
 		{
 			temp->loanArr[i] = NULL;
@@ -321,7 +325,5 @@ int readMemberManagerFromBinary(FILE* file, MemberManager* manager)
 		manager->memberArr[i] = *temp;
 
 	}
-
 	return 1;
-
 }

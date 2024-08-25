@@ -35,7 +35,7 @@ int addLoanToLoanArr(Member* member, Loan* loan);
 int isLoanedByMember(Loan* loanArr[], Book* title);
 void printLoan(Loan* loan);
 void printLoanList(LoanManager* manager);
-void printLoanArrOfMember(MemberManager* manager, int memberNumber);
+int printLoanArrOfMember(MemberManager* manager, int memberNumber);
 int isOverdue(Date* date);
 void freeLoan(Loan* loan);
 int freeLoanArr(Loan* loanArr[]);

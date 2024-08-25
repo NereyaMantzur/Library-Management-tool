@@ -20,11 +20,11 @@ Author* initAuthor(BookManager* bookManager)
 
 	for (int i = 0; i < bookManager->count; i++)
 	{
-		if (strcmp(bookManager->BookPtrArr[i]->author->name, newAuthor->name) == 0)
+		if (strcmp(bookManager->bookPtrArr[i]->author->name, newAuthor->name) == 0)
 		{
-			insert(bookManager->BookPtrArr[i]->author, initAuthorBook(bookManager->BookPtrArr[i]));
+			insert(bookManager->bookPtrArr[i]->author, initAuthorBook(bookManager->bookPtrArr[i]));
 			free(newAuthor);
-			return bookManager->BookPtrArr[i]->author;
+			return bookManager->bookPtrArr[i]->author;
 		}
 	}
 
@@ -64,15 +64,15 @@ void insert(Author* author, AuthorBook* title)
 
 void printBooksOfAuthor(BookManager* manager)
 {
-	printf("Please enter the name of the author: ");
+	printf("\nPlease enter the name of the author: ");
 	char* name = getStr();
 
 	for (int i = 0, j = 1; i < manager->count; i++)
 	{
-		if (!strcmp(name , manager->BookPtrArr[i]->author->name))
+		if (!strcmp(name, manager->bookPtrArr[i]->author->name))
 		{
-			printf("[%d] - " , j++);
-			printAuthorBook(manager->BookPtrArr[i]->author->headBook);
+			printf("[%d] - ", j++);
+			printAuthorBook(manager->bookPtrArr[i]->author->headBook);
 		}
 	}
 }

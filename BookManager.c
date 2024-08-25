@@ -15,7 +15,7 @@ BookManager* initBookManager()
 	{
 		return NULL;
 	}
-	manager->BookPtrArr = NULL;
+	manager->bookPtrArr = NULL;
 	manager->count = 0;
 	return manager;
 }
@@ -52,21 +52,21 @@ int addNewBook(BookManager* manager)
 {
 	printf("\n========================================== Book adding ==========================================\n\n");
 
-	manager->BookPtrArr = (Book**)realloc(manager->BookPtrArr, sizeof(Book*) * (manager->count + 1));
-	if (!manager->BookPtrArr)
+	manager->bookPtrArr = (Book**)realloc(manager->bookPtrArr, sizeof(Book*) * (manager->count + 1));
+	if (!manager->bookPtrArr)
 	{
 		return 0;
 	}
 	Book* add = initBook(manager);
 	for (size_t i = 0; i < manager->count; i++)
 	{
-		if (compareBookByName(&add, &manager->BookPtrArr[i]) == 0)
+		if (compareBookByName(&add, &manager->bookPtrArr[i]) == 0)
 		{
 			handleError("Book already exists! \n\n");
 			return 0;
 		}
 	}
-	manager->BookPtrArr[manager->count] = add;
+	manager->bookPtrArr[manager->count] = add;
 	manager->count++;
 	printf("\n===================================== Book added succesfully! ===================================\n\n");
 	return 1;
@@ -107,7 +107,7 @@ Genre getGenre()
 int removeBook(BookManager* bookManager, LoanManager* loanManager)
 {
 	printf("\n========================================== Book removing ========================================\n\n");
-	if (!printBookArr(bookManager->BookPtrArr, bookManager->count))
+	if (!printBookArr(bookManager->bookPtrArr, bookManager->count))
 		return 0;
 	printf("Please enter name of the book you want to remove: ");
 	char* bookName = getStr();
@@ -118,12 +118,12 @@ int removeBook(BookManager* bookManager, LoanManager* loanManager)
 			handleError("Book is loaned by one of the members");
 			return 0;
 		}
-		if (strcmp(bookName, bookManager->BookPtrArr[i]->name) == 0)
+		if (strcmp(bookName, bookManager->bookPtrArr[i]->name) == 0)
 		{
-			swap(bookManager->BookPtrArr[i], bookManager->BookPtrArr[bookManager->count - 1]);
-			freeBook(bookManager->BookPtrArr[bookManager->count - 1]);
+			swap(bookManager->bookPtrArr[i], bookManager->bookPtrArr[bookManager->count - 1]);
+			freeBook(bookManager->bookPtrArr[bookManager->count - 1]);
 			bookManager->count--;
-			bookManager->BookPtrArr = (Book**)realloc(bookManager->BookPtrArr, bookManager->count * sizeof(Book*));
+			bookManager->bookPtrArr = (Book**)realloc(bookManager->bookPtrArr, bookManager->count * sizeof(Book*));
 			printf("\n========================================= Book removed! =========================================\n\n");
 			return 1;
 		}
@@ -151,7 +151,7 @@ void printBook(const Book* title)
 	{
 		return;
 	}
-	printf("%-20s|%-20d|%-20s|%d/%d\n", title->name, title->genre, title->author->name, title->copiesAvailable,title->totalCopies);
+	printf("%-20s|%-20d|%-20s|%d/%d\n", title->name, title->genre, title->author->name, title->copiesAvailable, title->totalCopies);
 }
 
 void swap(Book* bookA, Book* bookB) {
@@ -167,66 +167,100 @@ void sortBooks(BookManager* manager) {
 	printf("[3] - Sort books by author\n");
 	printf("Please enter your choice: ");
 	scanf_s("%d", &choice);
-
+	printf("\n");
 	switch (choice) {
 	case 1:
-		qsort(manager->BookPtrArr, manager->count, sizeof(Book*), compareBookByName);
+		qsort(manager->bookPtrArr, manager->count, sizeof(Book*), compareBookByName);
 		break;
 	case 2:
-		qsort(manager->BookPtrArr, manager->count, sizeof(Book*), compareBookByGenre);
+		qsort(manager->bookPtrArr, manager->count, sizeof(Book*), compareBookByGenre);
 		break;
 	case 3:
-		qsort(manager->BookPtrArr, manager->count, sizeof(Book*), compareBookByAuthor);
+		qsort(manager->bookPtrArr, manager->count, sizeof(Book*), compareBookByAuthor);
 		break;
 	default:
 		handleError("Invalid choice!");
 		break;
 	}
-	printBookArr(manager->BookPtrArr, manager->count);
+	printBookArr(manager->bookPtrArr, manager->count);
 }
 
 Book* searchBook(BookManager* manager)
 {
 	Book* temp = (Book*)malloc(sizeof(Book));
+	if (!temp)
+	{
+		handleError("Memory allocation failed for temp!");
+		return NULL;
+	}
+
+	temp->author = (Author*)malloc(sizeof(Author));
+	if (!temp->author)
+	{
+		free(temp);
+		handleError("Memory allocation failed for author!");
+		return NULL;
+	}
+
 	int choice;
 	Book** res = NULL;
-	printf("\n[1] - search book by name\n");
-	printf("[2] - search book by genre\n");
-	printf("[3] - search book by author\n");
+
+	printf("\n[1] - Search book by name\n");
+	printf("[2] - Search book by genre\n");
+	printf("[3] - Search book by author\n");
 	printf("Please enter your choice: ");
 	scanf_s("%d", &choice);
 	getchar();
-	switch (choice) {
+
+	switch (choice)
+	{
 	case 1:
 		printf("Please enter the name of the book: ");
 		temp->name = getStr();
-		res = (Book**)bsearch(&temp, manager->BookPtrArr, manager->count, sizeof(Book*), compareBookByName);
+		qsort(manager->bookPtrArr, manager->count, sizeof(Book*), compareBookByName);
+		res = (Book**)bsearch(&temp, manager->bookPtrArr, manager->count, sizeof(Book*), compareBookByName);
 		break;
 	case 2:
 		printf("Please enter the genre of the book: \n");
 		temp->genre = getGenre();
 		getchar();
-		res = (Book**)bsearch(&temp, manager->BookPtrArr, manager->count, sizeof(Book*), compareBookByGenre);
+		qsort(manager->bookPtrArr, manager->count, sizeof(Book*), compareBookByGenre);
+		res = (Book**)bsearch(&temp, manager->bookPtrArr, manager->count, sizeof(Book*), compareBookByGenre);
 		break;
 	case 3:
 		printf("Please enter the author of the book: ");
-		strcpy(temp->author->name, getStr());
-		res = (Book**)bsearch(&temp, manager->BookPtrArr, manager->count, sizeof(Book*), compareBookByAuthor);
+		temp->author->name = getStr();
+		qsort(manager->bookPtrArr, manager->count, sizeof(Book*), compareBookByAuthor);
+		res = (Book**)bsearch(&temp, manager->bookPtrArr, manager->count, sizeof(Book*), compareBookByAuthor);
 		break;
 	default:
 		handleError("Invalid choice!");
-		break;
+		free(temp->name);
+		free(temp->author);
+		free(temp);
+		return NULL;
 	}
+
 	if (res)
 	{
 		printf("\nBook found!\n");
 		printf("Book name           |Genre               |Author              |Available\n");
 		printBook(*res);
+
+		// Clean up the temporary Book object
+		free(temp->author);
+		free(temp);
+
 		return *res;
 	}
+
 	handleError("Book not found!");
+	free(temp->name);
+	free(temp->author);
+	free(temp);
 	return NULL;
 }
+
 
 int compareBookByName(const void* a, const void* b) {
 	Book* bookA = *(Book**)a;
@@ -252,9 +286,9 @@ Book* getBookByTitle(BookManager* manager, char* bookTitle)
 {
 	for (int i = 0; i < manager->count; i++)
 	{
-		if (!strcmp(manager->BookPtrArr[i]->name, bookTitle))
+		if (!strcmp(manager->bookPtrArr[i]->name, bookTitle))
 		{
-			return manager->BookPtrArr[i];
+			return manager->bookPtrArr[i];
 		}
 	}
 	return NULL;
@@ -267,9 +301,9 @@ void printPopularBooks(BookManager* manager)
 	printf("Book name           |Genre               |Author              |Available\n");
 	for (int i = 0; i < manager->count; i++)
 	{
-		if (ISPOPULARBOOK(manager->BookPtrArr[i]->totalCopies, manager->BookPtrArr[i]->copiesAvailable))
+		if (ISPOPULARBOOK(manager->bookPtrArr[i]->totalCopies, manager->bookPtrArr[i]->copiesAvailable))
 		{
-			printBook(manager->BookPtrArr[i]);
+			printBook(manager->bookPtrArr[i]);
 			isPrined = 1;
 		}
 	}
@@ -283,7 +317,7 @@ void printPopularBooks(BookManager* manager)
 
 
 int writeBookManagerToText(FILE* file, BookManager* manager) {
-	Book** arr = manager->BookPtrArr;
+	Book** arr = manager->bookPtrArr;
 	fprintf(file, "%d\n", manager->count);
 	fprintf(file, "Book name           |Genre               |Author              |Available | Total Copies\n");
 	for (size_t i = 0; i < manager->count; i++) {
@@ -295,9 +329,9 @@ int writeBookManagerToText(FILE* file, BookManager* manager) {
 int readBookManagerFromText(FILE* file, BookManager* manager) {
 	int count = 0;
 	fscanf(file, "%d", &count);
-	manager->BookPtrArr = (Book**)malloc(count * sizeof(Book*));
+	manager->bookPtrArr = (Book**)malloc(count * sizeof(Book*));
 
-	if (!manager->BookPtrArr) {
+	if (!manager->bookPtrArr) {
 		return 0;
 	}
 
@@ -351,7 +385,7 @@ int readBookManagerFromText(FILE* file, BookManager* manager) {
 		temp->totalCopies = totalCopies;
 
 		insert(temp->author, initAuthorBook(temp));
-		manager->BookPtrArr[i] = temp;
+		manager->bookPtrArr[i] = temp;
 	}
 	return 1;
 }
@@ -364,7 +398,7 @@ int writeBookManagerToBinary(FILE* file, BookManager* manager)
 
 	for (int i = 0; i < manager->count; i++)
 	{
-		Book* book = manager->BookPtrArr[i];
+		Book* book = manager->bookPtrArr[i];
 
 		fwrite(&book->genre, sizeof(int), 1, file);
 		fwrite(&book->copiesAvailable, sizeof(int), 1, file);
@@ -387,8 +421,8 @@ int readBookManagerFromBinary(FILE* file, BookManager* manager)
 	int count = 0;
 	fread(&count, sizeof(int), 1, file);
 
-	manager->BookPtrArr = (Book**)malloc(count * sizeof(Book*));
-	if (!manager->BookPtrArr) {
+	manager->bookPtrArr = (Book**)malloc(count * sizeof(Book*));
+	if (!manager->bookPtrArr) {
 		return 0;
 	}
 
@@ -437,7 +471,7 @@ int readBookManagerFromBinary(FILE* file, BookManager* manager)
 		tempBook->author->headBook = NULL;
 		insert(tempBook->author, initAuthorBook(tempBook));
 
-		manager->BookPtrArr[i] = tempBook;
+		manager->bookPtrArr[i] = tempBook;
 	}
 
 	return 1;

@@ -5,7 +5,7 @@
 #include "Author.h"
 #include "General.h"
 
-#define SETPOPULAR 1   // popular is when X books are currently loaned
+#define SETPOPULAR 1   // popular is when X books or more are currently loaned
 #define ISPOPULARBOOK(X,Y) ((X) - (Y)) >= SETPOPULAR ? 1 : 0
 
 // Forward declaration
@@ -14,7 +14,7 @@ typedef struct LoanManager LoanManager;
 
 typedef enum Genre
 {
-	SCIENCE_FICTION, MYSTERY, FANTASY, ROMANCE, HISTORICAL_FICTION
+	SCIENCE_FICTION = 1, MYSTERY, FANTASY, ROMANCE, HISTORICAL_FICTION
 }Genre;
 
 struct Book
@@ -28,7 +28,7 @@ struct Book
 
 struct BookManager
 {
-	Book** BookPtrArr;
+	Book** bookPtrArr;
 	int count;
 };
 
