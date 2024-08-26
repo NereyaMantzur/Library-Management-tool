@@ -46,3 +46,39 @@ Date* add30DaysToCurrentTime(Date* date)
 	return date;
 }
 
+CompressedDate compressDate(Date date)
+{
+	CompressedDate compressed = 0;
+	compressed |= (date.year - 2000) << 16;
+	compressed |= date.month << 8;
+	compressed |= date.day;
+	return compressed;
+}
+
+Date decompressDate(CompressedDate compressed)
+{
+	Date date;
+	date.year = (compressed >> 16) + 2000;
+	date.month = (compressed >> 8) & 0xFF;
+	date.day = compressed & 0xFF;
+	return date;
+}
+
+int readCompressedDateFromBinaryFile(FILE* file, CompressedDate* compressedDate)
+{
+	if (fread(compressedDate, sizeof(CompressedDate), 1, file) != 1)
+	{
+		return 0;
+	}
+	return 1;
+}
+
+int writeCompressedDateToBinaryFile(FILE* file, CompressedDate compressedDate)
+{
+	if (fwrite(&compressedDate, sizeof(CompressedDate), 1, file) != 1)
+	{
+		return 0;
+	}
+	return 1;
+}
+

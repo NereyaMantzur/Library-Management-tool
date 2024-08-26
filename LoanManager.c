@@ -406,7 +406,7 @@ int writeLoanManagerToBinary(FILE* file, LoanManager* manager)
 		fwrite(&nameLength, sizeof(int), 1, file);
 		fwrite(temp->title->name, sizeof(char), nameLength, file);
 
-		fwrite(&temp->dateOfReturn, sizeof(Date), 1, file);
+		writeCompressedDateToBinaryFile(file, compressDate(temp->dateOfReturn));
 		fwrite(&temp->status, sizeof(int), 1, file);
 
 		head = head->next;
@@ -477,7 +477,10 @@ int readLoanManagerFromBinary(FILE* file, LoanManager* loanManager, BookManager*
 			return 0;
 		}
 
-		if (fread(&temp->dateOfReturn, sizeof(Date), 1, file) != 1) {
+		CompressedDate readCompressedDate;
+		readCompressedDateFromBinaryFile(file, &readCompressedDate);
+		temp->dateOfReturn = decompressDate(readCompressedDate);
+		if (!&temp->dateOfReturn) {
 			free(temp->title->name);
 			free(temp->title);
 			free(temp);
