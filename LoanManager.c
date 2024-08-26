@@ -238,15 +238,10 @@ int printLoanArrOfMember(MemberManager* manager, int memberNumber)
 		handleError("Member did not loaned books yet!");
 		return 0;
 	}
-	printf("#  |Member ID           |Book name           |Date of return      |Status\n");
-	for (int i = 0; i < MAX_BOOKS; i++)
-	{
-		if (manager->memberArr[memberNumber - 1].loanArr[i])
-		{
-			printf("%-2d |", i + 1);
-			printLoan(manager->memberArr[memberNumber - 1].loanArr[i]);
-		}
-	}
+    printf("#  |Member ID           |Book name           |Date of return      |Status\n");
+    Member* member = &manager->memberArr[memberNumber - 1];
+    
+	generalArrayFunction((void**)member->loanArr, MAX_BOOKS, printLoan);
 	return 1;
 }
 
