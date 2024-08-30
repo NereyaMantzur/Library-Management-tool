@@ -30,6 +30,11 @@ Member* initMember()
 	newMember->memberID = -1;
 	printf("Please enter Member name: ");
 	newMember->name = getStr();
+	if (strcmp(newMember->name,"\n"))
+	{
+		handleError("member name not entered");
+		return NULL;
+	}
 	printf("Please enter phone numer [10 digits]: ");
 	strcpy(newMember->phoneNumber, initPhoneNumber());
 	newMember->loanCount = 0;
@@ -50,6 +55,10 @@ int addNewMember(MemberManager* manager)
 		return 0;
 	}
 	Member* add = initMember();
+	if (!add)
+	{
+		return 0;
+	}
 	add->memberID = initID(manager);
 	manager->memberArr[manager->count] = *add;
 	manager->count++;
@@ -90,7 +99,7 @@ int removeMember(MemberManager* manager)
 			return 1;
 		}
 	}
-
+	handleError("Member ID not found");
 	printf("\n===================================== Failed to remove member ===================================\n\n");
 	return 0;
 }

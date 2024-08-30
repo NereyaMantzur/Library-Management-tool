@@ -34,6 +34,11 @@ Book* initBook(BookManager* manager)
 	getchar();
 	printf("Please enter number of copies: ");
 	scanf_s("%d", &newBook->copiesAvailable);
+	if (newBook->copiesAvailable < 1)
+	{
+		handleError("number not valid!");
+		return NULL;
+	}
 	getchar();
 	newBook->totalCopies = newBook->copiesAvailable;
 	newBook->author = initAuthor(manager);
@@ -58,6 +63,10 @@ int addNewBook(BookManager* manager)
 		return 0;
 	}
 	Book* add = initBook(manager);
+	if (!add)
+	{
+		return 0;
+	}
 	for (size_t i = 0; i < manager->count; i++)
 	{
 		if (compareBookByName(&add, &manager->bookPtrArr[i]) == 0)
@@ -109,7 +118,7 @@ int removeBook(BookManager* bookManager, LoanManager* loanManager)
 	printf("\n========================================== Book removing ========================================\n\n");
 	if (!printBookArr(bookManager->bookPtrArr, bookManager->count))
 		return 0;
-	printf("Please enter name of the book you want to remove: ");
+	printf("Please enter NAME of the book you want to remove: ");
 	char* bookName = getStr();
 	for (int i = 0; i < bookManager->count; i++)
 	{
@@ -128,6 +137,7 @@ int removeBook(BookManager* bookManager, LoanManager* loanManager)
 			return 1;
 		}
 	}
+	handleError("Book not found");
 	printf("\n====================================== Failed to remove book ====================================\n\n");
 	return 0;
 }
@@ -180,7 +190,7 @@ void sortBooks(BookManager* manager) {
 		break;
 	default:
 		handleError("Invalid choice!");
-		break;
+		return;
 	}
 	printBookArr(manager->bookPtrArr, manager->count);
 }
@@ -235,9 +245,6 @@ Book* searchBook(BookManager* manager)
 		break;
 	default:
 		handleError("Invalid choice!");
-		free(temp->name);
-		free(temp->author);
-		free(temp);
 		return NULL;
 	}
 
