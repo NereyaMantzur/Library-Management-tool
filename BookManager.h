@@ -5,7 +5,7 @@
 #include "Author.h"
 #include "General.h"
 
-#define SETPOPULAR 2   // popular is when X books OR MORE are currently loaned
+#define SETPOPULAR 1   // popular is when X books or more are currently loaned
 #define ISPOPULARBOOK(X,Y) ((X) - (Y)) >= SETPOPULAR ? 1 : 0
 
 // Forward declaration

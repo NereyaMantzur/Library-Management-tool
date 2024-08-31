@@ -64,22 +64,16 @@ void insert(Author* author, AuthorBook* title)
 
 void printBooksOfAuthor(BookManager* manager)
 {
-	printf("\n========================================== author books =========================================\n\n");
 	printf("\nPlease enter the name of the author: ");
 	char* name = getStr();
-	int isPrinted = 0;
+
 	for (int i = 0, j = 1; i < manager->count; i++)
 	{
 		if (!strcmp(name, manager->bookPtrArr[i]->author->name))
 		{
 			printf("[%d] - ", j++);
 			printAuthorBook(manager->bookPtrArr[i]->author->headBook);
-			isPrinted = 1;
 		}
-	}
-	if (!isPrinted)
-	{
-		handleError("Author not found");
 	}
 }
 

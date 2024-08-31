@@ -29,16 +29,15 @@ Book* initBook(BookManager* manager)
 	}
 	printf("Please enter book name: ");
 	newBook->name = getStr();
+	if (!strcmp(newBook->name, ""))
+	{
+		return NULL;
+	}
 	printf("Please enter book genre: \n");
 	newBook->genre = getGenre();
 	getchar();
 	printf("Please enter number of copies: ");
 	scanf_s("%d", &newBook->copiesAvailable);
-	if (newBook->copiesAvailable < 1)
-	{
-		handleError("number not valid!");
-		return NULL;
-	}
 	getchar();
 	newBook->totalCopies = newBook->copiesAvailable;
 	newBook->author = initAuthor(manager);
@@ -60,11 +59,13 @@ int addNewBook(BookManager* manager)
 	manager->bookPtrArr = (Book**)realloc(manager->bookPtrArr, sizeof(Book*) * (manager->count + 1));
 	if (!manager->bookPtrArr)
 	{
+		handleError("failed to add book");
 		return 0;
 	}
 	Book* add = initBook(manager);
 	if (!add)
 	{
+		handleError("failed to add book");
 		return 0;
 	}
 	for (size_t i = 0; i < manager->count; i++)
@@ -118,7 +119,7 @@ int removeBook(BookManager* bookManager, LoanManager* loanManager)
 	printf("\n========================================== Book removing ========================================\n\n");
 	if (!printBookArr(bookManager->bookPtrArr, bookManager->count))
 		return 0;
-	printf("Please enter NAME of the book you want to remove: ");
+	printf("Please enter name of the book you want to remove: ");
 	char* bookName = getStr();
 	for (int i = 0; i < bookManager->count; i++)
 	{
@@ -137,7 +138,6 @@ int removeBook(BookManager* bookManager, LoanManager* loanManager)
 			return 1;
 		}
 	}
-	handleError("Book not found");
 	printf("\n====================================== Failed to remove book ====================================\n\n");
 	return 0;
 }
@@ -190,7 +190,7 @@ void sortBooks(BookManager* manager) {
 		break;
 	default:
 		handleError("Invalid choice!");
-		return;
+		break;
 	}
 	printBookArr(manager->bookPtrArr, manager->count);
 }
@@ -245,6 +245,9 @@ Book* searchBook(BookManager* manager)
 		break;
 	default:
 		handleError("Invalid choice!");
+		free(temp->name);
+		free(temp->author);
+		free(temp);
 		return NULL;
 	}
 

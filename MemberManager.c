@@ -30,9 +30,8 @@ Member* initMember()
 	newMember->memberID = -1;
 	printf("Please enter Member name: ");
 	newMember->name = getStr();
-	if (strcmp(newMember->name,"\n"))
+	if (!strcmp(newMember->name,""))
 	{
-		handleError("member name not entered");
 		return NULL;
 	}
 	printf("Please enter phone numer [10 digits]: ");
@@ -52,11 +51,13 @@ int addNewMember(MemberManager* manager)
 	manager->memberArr = (Member*)realloc(manager->memberArr, sizeof(Member) * (manager->count + 1));
 	if (!manager->memberArr)
 	{
+		handleError("failed to add member");
 		return 0;
 	}
 	Member* add = initMember();
 	if (!add)
 	{
+		handleError("failed to add member");
 		return 0;
 	}
 	add->memberID = initID(manager);
@@ -99,7 +100,7 @@ int removeMember(MemberManager* manager)
 			return 1;
 		}
 	}
-	handleError("Member ID not found");
+
 	printf("\n===================================== Failed to remove member ===================================\n\n");
 	return 0;
 }
@@ -146,19 +147,27 @@ int initID(MemberManager* manager)
 	return manager->nextID;
 }
 
-char* initPhoneNumber()
-{
-	char phone[11];
+char* initPhoneNumber() {
+	char phone[20];
 	char* temp = NULL;
 
 	do {
-		scanf("%s", phone);
+		scanf("%19s", phone);
 		getchar();
+
+		if (strlen(phone) > 10) {
+			printf("Phone number cannot exceed 10 digits. Try again.\n");
+			continue;
+		}
 
 		if (isValidPhone(phone)) {
 			temp = (char*)malloc(strlen(phone) + 1);
 			if (temp) {
 				strcpy(temp, phone);
+			}
+			else {
+				printf("Memory allocation failed. Exiting.\n");
+				exit(1);
 			}
 		}
 		else {
@@ -169,21 +178,22 @@ char* initPhoneNumber()
 	return temp;
 }
 
-int isValidPhone(char* phone)
-{
+
+
+int isValidPhone(const char* phone) {
 	if (!phone || strlen(phone) != 10) {
 		return 0;
 	}
 
-	while (*phone) {
-		if (!isdigit(*phone)) {
+	for (int i = 0; i < 10; i++) {
+		if (!isdigit(phone[i])) {
 			return 0;
 		}
-		phone++;
 	}
 
 	return 1;
 }
+
 
 int freeMember(Member* member)
 {
